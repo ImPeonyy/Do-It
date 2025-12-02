@@ -24,3 +24,13 @@ body {
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer base {
+    :root {
+        --primary: oklch(37.3% 0.034 259.733);
+        --fav: #f3aab5;
+        --warning: #ff9900;
+        --success: #00cc00;
+        --error: #ff0000;
+    }
+}
