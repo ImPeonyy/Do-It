@@ -4,7 +4,7 @@ import { cn } from "@/utils/index";
 import { Label } from "@/components/ui";
 
 const inputVariants = cva(
-    `flex min-h-12 w-full bg-white py-2 pl-4 pr-2 gap-2 text-lg text-(--primary) rounded-md placeholder:text-gray-300 focus:outline-none disabled:bg-gray-700 disabled:text-black disabled:placeholder:text-black disabled:opacity-15 disabled:pointer-events-none`,
+    `flex min-h-12 w-full bg-white py-2 pl-4 pr-2 gap-2 text-lg text-(--primary) rounded-md placeholder:text-gray-400 focus:outline-none disabled:bg-gray-700 disabled:text-black disabled:placeholder:text-black disabled:opacity-15 disabled:pointer-events-none`,
     {
         variants: {
             variant: {

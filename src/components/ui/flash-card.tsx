@@ -2,7 +2,7 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/index";
 
-const flashCardVariants = cva(`inline-block w-80 h-48 text-(--primary)`, {
+const flashCardVariants = cva(`inline-block w-80 h-48 text-(--primary) m-5 cursor-pointer`, {
     variants: {
         variant: {
             default: "bg-transparent",
@@ -28,6 +28,7 @@ export interface FlashCardProps extends VariantProps<typeof flashCardVariants> {
     height?: string;
     flipOnHover?: boolean;
     initialFlipped?: boolean;
+    flipSignal?: number;
     onFlip?: (flipped: boolean) => void;
     disabled?: boolean;
 }
@@ -41,11 +42,13 @@ const FlashCard = ({
     height = "h-48",
     flipOnHover = false,
     initialFlipped = false,
+    flipSignal,
     onFlip,
+    variant = "default",
     disabled = false,
-    variant,
 }: FlashCardProps) => {
     const [flipped, setFlipped] = React.useState<boolean>(initialFlipped);
+    const lastFlipSignalRef = React.useRef<number | undefined>(flipSignal);
 
     function toggleFlip() {
         if (disabled) return;
@@ -55,6 +58,17 @@ const FlashCard = ({
             return next;
         });
     }
+
+    React.useEffect(() => {
+        if (flipSignal === undefined) return;
+        if (flipSignal === lastFlipSignalRef.current) return;
+        lastFlipSignalRef.current = flipSignal;
+        setFlipped((s: boolean) => {
+            const next = !s;
+            onFlip?.(next);
+            return next;
+        });
+    }, [flipSignal, onFlip, disabled]);
 
     function handleKey(e: React.KeyboardEvent<HTMLDivElement>) {
         if (disabled) return;
@@ -116,12 +130,12 @@ const FlashCard = ({
                 aria-label={flipped ? "Front" : "Back"}
                 style={{ ...innerStyle, ...getEffectStyle() }}
             >
-                <div style={faceCommon} className="flex items-center justify-center rounded-2xl bg-white shadow-md">
+                <div style={faceCommon} className="flex items-center justify-center rounded-xl bg-white shadow-md">
                     <div className="flex h-full w-full items-center justify-center text-center">{frontContent}</div>
                 </div>
                 <div
                     style={{ ...faceCommon, transform: "rotateY(180deg)" }}
-                    className="flex items-center justify-center rounded-2xl bg-gray-50 p-4 shadow-md"
+                    className="flex items-center justify-center rounded-xl bg-gray-50 p-4 shadow-md"
                 >
                     <div className="flex h-full w-full items-center justify-center text-center">{backContent}</div>
                 </div>
