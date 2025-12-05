@@ -11,14 +11,17 @@ const labelVariants = cva("text-md font-bold flex-shrink-0 text-(--primary)", {
             true: "opacity-15 pointer-events-none",
         },
     },
+    defaultVariants: {
+        disabled: false,
+    },
 });
 
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement>, VariantProps<typeof labelVariants> {
     children: React.ReactNode;
 }
 
-const Label = ({ className, ...props }: LabelProps) => {
-    return <label className={cn(labelVariants({ disabled: props.disabled }), className)} {...props} />;
+const Label = ({ className, disabled, ...props }: LabelProps) => {
+    return <label className={cn(labelVariants({ disabled }), className)} {...props} />;
 };
 Label.displayName = "Label";
 

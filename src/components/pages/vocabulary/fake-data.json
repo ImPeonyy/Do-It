@@ -1,0 +1,704 @@
+{
+  "vocabulary": [
+    {
+      "id": 1,
+      "word": "personality",
+      "type": "noun",
+      "definitions": ["Nhân cách", "Tính cách"],
+      "pronunciation": "/ˌpɜː.sənˈæl.ə.ti/"
+    },
+    {
+      "id": 2,
+      "word": "confidence",
+      "type": "noun",
+      "definitions": ["Sự tự tin", "Lòng tin"],
+      "pronunciation": "/ˈkɒn.fɪ.dəns/"
+    },
+    {
+      "id": 3,
+      "word": "determined",
+      "type": "adjective",
+      "definitions": ["Quyết tâm", "Kiên quyết"],
+      "pronunciation": "/dɪˈtɜː.mɪnd/"
+    },
+    {
+      "id": 4,
+      "word": "creative",
+      "type": "adjective",
+      "definitions": ["Sáng tạo"],
+      "pronunciation": "/kriˈeɪ.tɪv/"
+    },
+    {
+      "id": 5,
+      "word": "curious",
+      "type": "adjective",
+      "definitions": ["Hiếu kỳ", "Tò mò (tích cực)"],
+      "pronunciation": "/ˈkjʊə.ri.əs/"
+    },
+    {
+      "id": 6,
+      "word": "ambitious",
+      "type": "adjective",
+      "definitions": ["Có tham vọng", "Hoài bão"],
+      "pronunciation": "/æmˈbɪʃ.əs/"
+    },
+    {
+      "id": 7,
+      "word": "introvert",
+      "type": "noun",
+      "definitions": ["Người hướng nội"],
+      "pronunciation": "/ˈɪn.trə.vɜːt/"
+    },
+    {
+      "id": 8,
+      "word": "extrovert",
+      "type": "noun",
+      "definitions": ["Người hướng ngoại"],
+      "pronunciation": "/ˈek.strə.vɜːt/"
+    },
+    {
+      "id": 9,
+      "word": "responsible",
+      "type": "adjective",
+      "definitions": ["Có trách nhiệm"],
+      "pronunciation": "/rɪˈspɒn.sə.bəl/"
+    },
+    {
+      "id": 10,
+      "word": "patient",
+      "type": "adjective",
+      "definitions": ["Kiên nhẫn"],
+      "pronunciation": "/ˈpeɪ.ʃənt/"
+    },
+    {
+      "id": 11,
+      "word": "honest",
+      "type": "adjective",
+      "definitions": ["Trung thực", "Thật thà"],
+      "pronunciation": "/ˈɒn.ɪst/"
+    },
+    {
+      "id": 12,
+      "word": "generous",
+      "type": "adjective",
+      "definitions": ["Hào phóng", "Rộng lượng"],
+      "pronunciation": "/ˈdʒen.ər.əs/"
+    },
+    {
+      "id": 13,
+      "word": "lazy",
+      "type": "adjective",
+      "definitions": ["Lười biếng"],
+      "pronunciation": "/ˈleɪ.zi/"
+    },
+    {
+      "id": 14,
+      "word": "reliable",
+      "type": "adjective",
+      "definitions": ["Đáng tin cậy"],
+      "pronunciation": "/rɪˈlaɪ.ə.bəl/"
+    },
+    {
+      "id": 15,
+      "word": "polite",
+      "type": "adjective",
+      "definitions": ["Lịch sự", "Lễ phép"],
+      "pronunciation": "/pəˈlaɪt/"
+    },
+    {
+      "id": 16,
+      "word": "rude",
+      "type": "adjective",
+      "definitions": ["Thô lỗ", "Bất lịch sự"],
+      "pronunciation": "/ruːd/"
+    },
+    {
+      "id": 17,
+      "word": "selfish",
+      "type": "adjective",
+      "definitions": ["Ích kỷ"],
+      "pronunciation": "/ˈsel.fɪʃ/"
+    },
+    {
+      "id": 18,
+      "word": "shy",
+      "type": "adjective",
+      "definitions": ["Nhút nhát", "E thẹn"],
+      "pronunciation": "/ʃaɪ/"
+    },
+    {
+      "id": 19,
+      "word": "talkative",
+      "type": "adjective",
+      "definitions": ["Lắm lời", "Nói nhiều"],
+      "pronunciation": "/ˈtɔː.kə.tɪv/"
+    },
+    {
+      "id": 20,
+      "word": "sociable",
+      "type": "adjective",
+      "definitions": ["Hòa đồng", "Dễ gần"],
+      "pronunciation": "/ˈsəʊ.ʃə.bəl/"
+    },
+    {
+      "id": 21,
+      "word": "organized",
+      "type": "adjective",
+      "definitions": ["Ngăn nắp", "Có tổ chức"],
+      "pronunciation": "/ˈɔː.ɡən.aɪzd/"
+    },
+    {
+      "id": 22,
+      "word": "messy",
+      "type": "adjective",
+      "definitions": ["Bừa bộn", "Lộn xộn"],
+      "pronunciation": "/ˈmes.i/"
+    },
+    {
+      "id": 23,
+      "word": "optimistic",
+      "type": "adjective",
+      "definitions": ["Lạc quan"],
+      "pronunciation": "/ˌɒp.tɪˈmɪs.tɪk/"
+    },
+    {
+      "id": 24,
+      "word": "pessimistic",
+      "type": "adjective",
+      "definitions": ["Bi quan"],
+      "pronunciation": "/ˌpes.ɪˈmɪs.tɪk/"
+    },
+    {
+      "id": 25,
+      "word": "friendly",
+      "type": "adjective",
+      "definitions": ["Thân thiện"],
+      "pronunciation": "/ˈfrend.li/"
+    },
+    {
+      "id": 26,
+      "word": "hard-working",
+      "type": "adjective",
+      "definitions": ["Chăm chỉ", "Siêng năng"],
+      "pronunciation": "/ˌhɑːdˈwɜː.kɪŋ/"
+    },
+    {
+      "id": 27,
+      "word": "sensitive",
+      "type": "adjective",
+      "definitions": ["Nhạy cảm", "Dễ bị tổn thương"],
+      "pronunciation": "/ˈsen.sɪ.tɪv/"
+    },
+    {
+      "id": 28,
+      "word": "brave",
+      "type": "adjective",
+      "definitions": ["Dũng cảm"],
+      "pronunciation": "/breɪv/"
+    },
+    {
+      "id": 29,
+      "word": "calm",
+      "type": "adjective",
+      "definitions": ["Bình tĩnh"],
+      "pronunciation": "/kɑːm/"
+    },
+    {
+      "id": 30,
+      "word": "careful",
+      "type": "adjective",
+      "definitions": ["Cẩn thận"],
+      "pronunciation": "/ˈkeə.fəl/"
+    },
+    {
+      "id": 31,
+      "word": "careless",
+      "type": "adjective",
+      "definitions": ["Cẩu thả", "Bất cẩn"],
+      "pronunciation": "/ˈkeə.ləs/"
+    },
+    {
+      "id": 32,
+      "word": "helpful",
+      "type": "adjective",
+      "definitions": ["Hay giúp đỡ", "Có ích"],
+      "pronunciation": "/ˈhelp.fəl/"
+    },
+    {
+      "id": 33,
+      "word": "jealous",
+      "type": "adjective",
+      "definitions": ["Ghen tị", "Ghen tuông"],
+      "pronunciation": "/ˈdʒel.əs/"
+    },
+    {
+      "id": 34,
+      "word": "mature",
+      "type": "adjective",
+      "definitions": ["Trưởng thành", "Chín chắn"],
+      "pronunciation": "/məˈtʊə(r)/"
+    },
+    {
+      "id": 35,
+      "word": "immature",
+      "type": "adjective",
+      "definitions": ["Non nớt", "Thiếu chín chắn"],
+      "pronunciation": "/ˌɪməˈtʊə(r)/"
+    },
+    {
+      "id": 36,
+      "word": "modest",
+      "type": "adjective",
+      "definitions": ["Khiêm tốn"],
+      "pronunciation": "/ˈmɒd.ɪst/"
+    },
+    {
+      "id": 37,
+      "word": "arrogant",
+      "type": "adjective",
+      "definitions": ["Ngạo mạn", "Kiêu căng"],
+      "pronunciation": "/ˈær.ə.ɡənt/"
+    },
+    {
+      "id": 38,
+      "word": "adventurous",
+      "type": "adjective",
+      "definitions": ["Ưa mạo hiểm", "Thích phiêu lưu"],
+      "pronunciation": "/ədˈven.tʃər.əs/"
+    },
+    {
+      "id": 39,
+      "word": "creative thinking",
+      "type": "noun phrase",
+      "definitions": ["Tư duy sáng tạo"],
+      "pronunciation": "/kriˈeɪ.tɪv ˈθɪŋ.kɪŋ/"
+    },
+    {
+      "id": 40,
+      "word": "sense of humor",
+      "type": "noun phrase",
+      "definitions": ["Khiếu hài hước"],
+      "pronunciation": "/ˌsens əv ˈhjuː.mə(r)/"
+    },
+    {
+      "id": 41,
+      "word": "lose temper",
+      "type": "verb phrase",
+      "definitions": ["Mất bình tĩnh", "Nổi nóng"],
+      "pronunciation": "/luːz ˈtempə(r)/"
+    },
+    {
+      "id": 42,
+      "word": "keep calm",
+      "type": "verb phrase",
+      "definitions": ["Giữ bình tĩnh"],
+      "pronunciation": "/kiːp kɑːm/"
+    },
+    {
+      "id": 43,
+      "word": "get along with",
+      "type": "phrasal verb",
+      "definitions": ["Hòa hợp với", "Hợp với ai đó"],
+      "pronunciation": "/ɡet əˈlɒŋ wɪð/"
+    },
+    {
+      "id": 44,
+      "word": "look up to",
+      "type": "phrasal verb",
+      "definitions": ["Kính trọng", "Ngưỡng mộ"],
+      "pronunciation": "/lʊk ʌp tuː/"
+    },
+    {
+      "id": 45,
+      "word": "look down on",
+      "type": "phrasal verb",
+      "definitions": ["Coi thường"],
+      "pronunciation": "/lʊk daʊn ɒn/"
+    },
+    {
+      "id": 46,
+      "word": "calmly",
+      "type": "adverb",
+      "definitions": ["Một cách bình tĩnh"],
+      "pronunciation": "/ˈkɑːm.li/"
+    },
+    {
+      "id": 47,
+      "word": "politely",
+      "type": "adverb",
+      "definitions": ["Một cách lịch sự"],
+      "pronunciation": "/pəˈlaɪt.li/"
+    },
+    {
+      "id": 48,
+      "word": "honestly",
+      "type": "adverb",
+      "definitions": ["Một cách trung thực"],
+      "pronunciation": "/ˈɒn.ɪst.li/"
+    },
+    {
+      "id": 49,
+      "word": "carefully",
+      "type": "adverb",
+      "definitions": ["Một cách cẩn thận"],
+      "pronunciation": "/ˈkeə.fəl.i/"
+    },
+    {
+      "id": 50,
+      "word": "patiently",
+      "type": "adverb",
+      "definitions": ["Một cách kiên nhẫn"],
+      "pronunciation": "/ˈpeɪ.ʃənt.li/"
+    },
+    {
+      "id": 51,
+      "word": "motivate",
+      "type": "verb",
+      "definitions": ["Truyền động lực", "Thúc đẩy"],
+      "pronunciation": "/ˈməʊ.tɪ.veɪt/"
+    },
+    {
+      "id": 52,
+      "word": "encourage",
+      "type": "verb",
+      "definitions": ["Khuyến khích", "Động viên"],
+      "pronunciation": "/ɪnˈkʌr.ɪdʒ/"
+    },
+    {
+      "id": 53,
+      "word": "respect",
+      "type": "verb",
+      "definitions": ["Tôn trọng"],
+      "pronunciation": "/rɪˈspekt/"
+    },
+    {
+      "id": 54,
+      "word": "trust",
+      "type": "verb",
+      "definitions": ["Tin tưởng"],
+      "pronunciation": "/trʌst/"
+    },
+    {
+      "id": 55,
+      "word": "admire",
+      "type": "verb",
+      "definitions": ["Ngưỡng mộ"],
+      "pronunciation": "/ədˈmaɪə(r)/"
+    },
+    {
+      "id": 56,
+      "word": "judge",
+      "type": "verb",
+      "definitions": ["Phán xét", "Đánh giá"],
+      "pronunciation": "/dʒʌdʒ/"
+    },
+    {
+      "id": 57,
+      "word": "supportive",
+      "type": "adjective",
+      "definitions": ["Hay ủng hộ", "Sẵn sàng giúp đỡ"],
+      "pronunciation": "/səˈpɔː.tɪv/"
+    },
+    {
+      "id": 58,
+      "word": "independent",
+      "type": "adjective",
+      "definitions": ["Độc lập", "Tự chủ"],
+      "pronunciation": "/ˌɪn.dɪˈpen.dənt/"
+    },
+    {
+      "id": 59,
+      "word": "dependable",
+      "type": "adjective",
+      "definitions": ["Đáng tin cậy", "Có thể dựa vào"],
+      "pronunciation": "/dɪˈpen.də.bəl/"
+    },
+    {
+      "id": 60,
+      "word": "open-minded",
+      "type": "adjective",
+      "definitions": ["Cởi mở", "Sẵn sàng tiếp thu"],
+      "pronunciation": "/ˌəʊ.pənˈmaɪn.dɪd/"
+    },
+    {
+      "id": 61,
+      "word": "narrow-minded",
+      "type": "adjective",
+      "definitions": ["Hẹp hòi", "Thiển cận"],
+      "pronunciation": "/ˌnær.əʊˈmaɪn.dɪd/"
+    },
+    {
+      "id": 62,
+      "word": "thoughtful",
+      "type": "adjective",
+      "definitions": ["Chu đáo", "Sâu sắc"],
+      "pronunciation": "/ˈθɔːt.fəl/"
+    },
+    {
+      "id": 63,
+      "word": "self-confident",
+      "type": "adjective",
+      "definitions": ["Tự tin vào bản thân"],
+      "pronunciation": "/ˌselfˈkɒn.fɪ.dənt/"
+    },
+    {
+      "id": 64,
+      "word": "self-disciplined",
+      "type": "adjective",
+      "definitions": ["Có kỷ luật bản thân"],
+      "pronunciation": "/ˌselfˈdɪs.ə.plɪnd/"
+    },
+    {
+      "id": 65,
+      "word": "self-motivated",
+      "type": "adjective",
+      "definitions": ["Tự tạo động lực cho bản thân"],
+      "pronunciation": "/ˌselfˈməʊ.tɪ.veɪ.tɪd/"
+    },
+    {
+      "id": 66,
+      "word": "decisive",
+      "type": "adjective",
+      "definitions": ["Dứt khoát", "Quyết đoán"],
+      "pronunciation": "/dɪˈsaɪ.sɪv/"
+    },
+    {
+      "id": 67,
+      "word": "stubborn",
+      "type": "adjective",
+      "definitions": ["Bướng bỉnh", "Cứng đầu"],
+      "pronunciation": "/ˈstʌb.ən/"
+    },
+    {
+      "id": 68,
+      "word": "cheerful",
+      "type": "adjective",
+      "definitions": ["Vui vẻ", "Hớn hở"],
+      "pronunciation": "/ˈtʃɪə.fəl/"
+    },
+    {
+      "id": 69,
+      "word": "moody",
+      "type": "adjective",
+      "definitions": ["Tính khí thất thường"],
+      "pronunciation": "/ˈmuː.di/"
+    },
+    {
+      "id": 70,
+      "word": "sympathetic",
+      "type": "adjective",
+      "definitions": ["Thông cảm", "Đồng cảm"],
+      "pronunciation": "/ˌsɪm.pəˈθet.ɪk/"
+    },
+    {
+      "id": 71,
+      "word": "outgoing",
+      "type": "adjective",
+      "definitions": ["Cởi mở", "Hòa đồng"],
+      "pronunciation": "/ˌaʊtˈɡəʊ.ɪŋ/"
+    },
+    {
+      "id": 72,
+      "word": "quiet",
+      "type": "adjective",
+      "definitions": ["Trầm tính", "Ít nói"],
+      "pronunciation": "/ˈkwaɪ.ət/"
+    },
+    {
+      "id": 73,
+      "word": "kind",
+      "type": "adjective",
+      "definitions": ["Tốt bụng", "Tử tế"],
+      "pronunciation": "/kaɪnd/"
+    },
+    {
+      "id": 74,
+      "word": "creative person",
+      "type": "noun phrase",
+      "definitions": ["Người sáng tạo"],
+      "pronunciation": "/kriˈeɪ.tɪv ˈpɜː.sən/"
+    },
+    {
+      "id": 75,
+      "word": "team player",
+      "type": "noun phrase",
+      "definitions": ["Người làm việc nhóm tốt"],
+      "pronunciation": "/ˈtiːm ˌpleɪ.ər/"
+    },
+    {
+      "id": 76,
+      "word": "risk taker",
+      "type": "noun phrase",
+      "definitions": ["Người dám chấp nhận rủi ro"],
+      "pronunciation": "/ˈrɪsk ˌteɪ.kər/"
+    },
+    {
+      "id": 77,
+      "word": "good listener",
+      "type": "noun phrase",
+      "definitions": ["Người biết lắng nghe"],
+      "pronunciation": "/ˌɡʊd ˈlɪs.ən.ər/"
+    },
+    {
+      "id": 78,
+      "word": "people person",
+      "type": "noun phrase",
+      "definitions": ["Người giỏi giao tiếp", "Người hướng ngoại"],
+      "pronunciation": "/ˈpiː.pəl ˌpɜː.sən/"
+    },
+    {
+      "id": 79,
+      "word": "daydreamer",
+      "type": "noun",
+      "definitions": ["Người hay mơ mộng"],
+      "pronunciation": "/ˈdeɪˌdriː.mər/"
+    },
+    {
+      "id": 80,
+      "word": "workaholic",
+      "type": "noun",
+      "definitions": ["Người nghiện công việc"],
+      "pronunciation": "/ˌwɜː.kəˈhɒl.ɪk/"
+    },
+    {
+      "id": 81,
+      "word": "introverted",
+      "type": "adjective",
+      "definitions": ["Hướng nội"],
+      "pronunciation": "/ˈɪn.trə.vɜː.tɪd/"
+    },
+    {
+      "id": 82,
+      "word": "extroverted",
+      "type": "adjective",
+      "definitions": ["Hướng ngoại"],
+      "pronunciation": "/ˈek.strə.vɜː.tɪd/"
+    },
+    {
+      "id": 83,
+      "word": "self-esteem",
+      "type": "noun",
+      "definitions": ["Lòng tự trọng", "Tự tôn"],
+      "pronunciation": "/ˌself.ɪˈstiːm/"
+    },
+    {
+      "id": 84,
+      "word": "ego",
+      "type": "noun",
+      "definitions": ["Cái tôi"],
+      "pronunciation": "/ˈiː.ɡəʊ/"
+    },
+    {
+      "id": 85,
+      "word": "character",
+      "type": "noun",
+      "definitions": ["Tính cách", "Nhân phẩm"],
+      "pronunciation": "/ˈkær.ək.tər/"
+    },
+    {
+      "id": 86,
+      "word": "temper",
+      "type": "noun",
+      "definitions": ["Tính khí", "Nổi nóng"],
+      "pronunciation": "/ˈtem.pər/"
+    },
+    {
+      "id": 87,
+      "word": "attitude",
+      "type": "noun",
+      "definitions": ["Thái độ"],
+      "pronunciation": "/ˈæt.ɪ.tʃuːd/"
+    },
+    {
+      "id": 88,
+      "word": "behavior",
+      "type": "noun",
+      "definitions": ["Hành vi", "Cách cư xử"],
+      "pronunciation": "/bɪˈheɪ.vjər/"
+    },
+    {
+      "id": 89,
+      "word": "habit",
+      "type": "noun",
+      "definitions": ["Thói quen"],
+      "pronunciation": "/ˈhæb.ɪt/"
+    },
+    {
+      "id": 90,
+      "word": "routine",
+      "type": "noun",
+      "definitions": ["Thời khóa biểu", "Thói quen hằng ngày"],
+      "pronunciation": "/ruːˈtiːn/"
+    },
+    {
+      "id": 91,
+      "word": "flexible",
+      "type": "adjective",
+      "definitions": ["Linh hoạt", "Dễ thích nghi"],
+      "pronunciation": "/ˈflek.sə.bəl/"
+    },
+    {
+      "id": 92,
+      "word": "inflexible",
+      "type": "adjective",
+      "definitions": ["Cứng nhắc", "Không linh hoạt"],
+      "pronunciation": "/ɪnˈflek.sə.bəl/"
+    },
+    {
+      "id": 93,
+      "word": "considerate",
+      "type": "adjective",
+      "definitions": ["Chu đáo", "Biết nghĩ cho người khác"],
+      "pronunciation": "/kənˈsɪd.ər.ət/"
+    },
+    {
+      "id": 94,
+      "word": "thoughtless",
+      "type": "adjective",
+      "definitions": ["Thiếu suy nghĩ", "Vô tâm"],
+      "pronunciation": "/ˈθɔːt.ləs/"
+    },
+    {
+      "id": 95,
+      "word": "depend on",
+      "type": "phrasal verb",
+      "definitions": ["Phụ thuộc vào", "Dựa vào"],
+      "pronunciation": "/dɪˈpend ɒn/"
+    },
+    {
+      "id": 96,
+      "word": "look after",
+      "type": "phrasal verb",
+      "definitions": ["Chăm sóc", "Trông nom"],
+      "pronunciation": "/lʊk ˈɑːf.tər/"
+    },
+    {
+      "id": 97,
+      "word": "get on well with",
+      "type": "phrasal verb",
+      "definitions": ["Hòa hợp với", "Có quan hệ tốt với"],
+      "pronunciation": "/ɡet ɒn wel wɪð/"
+    },
+    {
+      "id": 98,
+      "word": "fall out with",
+      "type": "phrasal verb",
+      "definitions": ["Cãi nhau với", "Bất hòa với"],
+      "pronunciation": "/fɔːl aʊt wɪð/"
+    },
+    {
+      "id": 99,
+      "word": "hang out with",
+      "type": "phrasal verb",
+      "definitions": ["Đi chơi với"],
+      "pronunciation": "/hæŋ aʊt wɪð/"
+    },
+    {
+      "id": 100,
+      "word": "get to know",
+      "type": "phrasal verb",
+      "definitions": ["Tìm hiểu", "Làm quen"],
+      "pronunciation": "/ˈɡet tə nəʊ/"
+    }
+  ]
+}
