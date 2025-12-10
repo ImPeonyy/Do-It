@@ -1,28 +1,22 @@
-"use client";
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
 
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/libs/utils"
 
-import cn from "@/utils/cn.util";
-
-const labelVariants = cva("text-md font-bold flex-shrink-0 text-(--primary)", {
-    variants: {
-        disabled: {
-            true: "opacity-15 pointer-events-none",
-        },
-    },
-    defaultVariants: {
-        disabled: false,
-    },
-});
-
-export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement>, VariantProps<typeof labelVariants> {
-    children: React.ReactNode;
+function Label({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+  return (
+    <LabelPrimitive.Root
+      data-slot="label"
+      className={cn(
+        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-const Label = ({ className, disabled, ...props }: LabelProps) => {
-    return <label className={cn(labelVariants({ disabled }), className)} {...props} />;
-};
-Label.displayName = "Label";
-
-export default Label;
+export { Label }

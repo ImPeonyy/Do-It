@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/utils/index";
+import { cn } from "@/libs/utils";
 
 const flashCardVariants = cva(`inline-block w-80 h-48 text-(--primary) m-5 cursor-pointer`, {
     variants: {
