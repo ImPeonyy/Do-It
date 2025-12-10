@@ -1,69 +1,21 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/utils/index";
-import { Label } from "@/components/ui";
+import * as React from "react"
 
-const inputVariants = cva(
-    `flex min-h-12 w-full bg-white py-2 pl-4 pr-2 gap-2 text-lg text-(--primary) rounded-md placeholder:text-gray-400 focus:outline-none disabled:bg-gray-700 disabled:text-black disabled:placeholder:text-black disabled:opacity-15 disabled:pointer-events-none`,
-    {
-        variants: {
-            variant: {
-                default: "border border-(--primary) hover:border-(--primary)/50",
-                warning: "border border-(--warning) hover:border-(--warning)/50",
-                success: "border border-(--success) hover:border-(--success)/50",
-                error: "border border-(--error) hover:border-(--error)/50",
-            },
-            typeStyle: {
-                default: "",
-                pill: "rounded-full",
-            },
-        },
-        defaultVariants: {
-            variant: "default",
-            typeStyle: "default",
-        },
-    }
-);
+import { cn } from "@/libs/utils"
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, VariantProps<typeof inputVariants> {
-    label?: string;
-    helperText?: string;
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <input
+      type={type}
+      data-slot="input"
+      className={cn(
+        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-const helperTextVariants: Record<string, string> = {
-    default: "text-(--primary)",
-    warning: "text-(--warning)",
-    success: "text-(--success)",
-    error: "text-(--error)",
-};
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, variant, typeStyle, label, helperText, id, ...props }, ref) => {
-        const helperTextClass = helperTextVariants[variant ?? "default"] ?? helperTextVariants.default;
-
-        return (
-            <div className="flex flex-col gap-1">
-                {label && (
-                    <Label htmlFor={id} disabled={props.disabled} className="pl-2">
-                        {label}
-                    </Label>
-                )}
-                <input id={id} className={cn(inputVariants({ variant, typeStyle }), className)} ref={ref} {...props} />
-                {helperText && (
-                    <span
-                        className={cn(
-                            "pl-2 text-sm",
-                            helperTextClass,
-                            props.disabled ? "pointer-events-none opacity-15" : ""
-                        )}
-                    >
-                        {helperText}
-                    </span>
-                )}
-            </div>
-        );
-    }
-);
-
-Input.displayName = "Input";
-export default Input;
+export { Input }

@@ -4,7 +4,7 @@ import { SideBar } from "@/components/shared";
 
 const Page = () => {
     return (
-        <MainLayout sidebar={<SideBar />}>
+        <MainLayout subContent={<SideBar />}>
             <VocabularyLearnPage />
         </MainLayout>
     );
