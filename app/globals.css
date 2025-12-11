@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -136,10 +136,56 @@ body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }
+
+@layer utilities {
+    /* ACTIVE */
+    .sidebar-item-active {
+      position: relative;
+    }
+  
+    .sidebar-item-active::before,
+    .sidebar-item-active::after {
+      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
+    }
+  
+    .sidebar-item-active::before {
+      top: -100%;
+      @apply shadow-[35px_35px_0_10px_var(--background)];
+    }
+  
+    .sidebar-item-active::after {
+      bottom: -100%;
+      @apply shadow-[35px_-35px_0_10px_var(--background)];
+    }
+  
+    /* HOVER */
+    .sidebar-item-hover {
+      position: relative;
+    }
+  
+    .sidebar-item-hover:hover::before,
+    .sidebar-item-hover:hover::after {
+      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
+    }
+  
+    .sidebar-item-hover:hover::before {
+      top: -100%;
+      @apply shadow-[35px_35px_0_10px_var(--background)];
+    }
+  
+    .sidebar-item-hover:hover::after {
+      bottom: -100%;
+      @apply shadow-[35px_-35px_0_10px_var(--background)];
+    }
+  
+    .sidebar-bg {
+      @apply inset-0 bg-gradient-to-b from-[#262239] to-[#46394c] from-8% to-100%;
+    }
+  }
