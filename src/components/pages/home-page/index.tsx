@@ -1,9 +1,9 @@
-import * as React from "react";
+import HeaderV2 from "../../layout/header/header-v2";
 
 const HomePage = () => {
     return (
         <div>
-            <h1>Home Page</h1>    
+            <HeaderV2 />
         </div>
     );
 };
