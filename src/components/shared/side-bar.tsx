@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
     SidebarGroupContent,
     SidebarSeparator,
-} from "@/components/ui/sidebar";
+} from "@/components/ui";
 import { Home, Inbox, Calendar, Search, Settings, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -55,7 +55,7 @@ const SideBar = () => {
     const pathname = usePathname();
 
     return (
-        <Sidebar className="border-none text-foreground">
+        <Sidebar className="border-none text-white">
             <SidebarContent className="sidebar-bg">
                 <SidebarGroup className="gap-10">
                     <SidebarGroupLabel className="flex justify-center font-bold text-white text-3xl items-center">Do It!</SidebarGroupLabel>
@@ -71,7 +71,7 @@ const SideBar = () => {
                                         >
                                             <SidebarMenuButton
                                                 asChild
-                                                className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground"
+                                                className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
                                                 isActive={isActive}
                                             >
                                                 <a href={item.url}>
