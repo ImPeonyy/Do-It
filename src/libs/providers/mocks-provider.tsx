@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 
 export default function MockProvider({ children }: { children: React.ReactNode }) {
-    const isDevelopment = process.env.NODE_ENV === "development";
+    const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development";
+    const isUseMocks = process.env.NEXT_PUBLIC_USE_MOCK === "true";
     const [isReady, setIsReady] = useState(!isDevelopment);
+
+    console.log(isDevelopment, isUseMocks);
 
     useEffect(() => {
         if (typeof window === "undefined") {
@@ -12,7 +15,7 @@ export default function MockProvider({ children }: { children: React.ReactNode }
             return;
         }
 
-        if (isDevelopment) {
+        if (isDevelopment && isUseMocks) {
             import("../../mocks/browser")
                 .then(({ worker }) => {
                     return worker.start({
@@ -40,7 +43,7 @@ export default function MockProvider({ children }: { children: React.ReactNode }
         } else {
             setIsReady(true);
         }
-    }, [isDevelopment]);
+    }, [isDevelopment, isUseMocks]);
 
     if (!isReady) {
         return null;

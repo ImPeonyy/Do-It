@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import userQueryKey from "./user.qkey";
 
 const getUsers = async (): Promise<ApiResponse<User[]>> => {
-    const response = await axiosClient.get("/user");
+    const response = await axiosClient.get("/users");
     return response.data;
 };
 
