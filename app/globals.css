@@ -155,7 +155,7 @@ body {
   
     .sidebar-item-active::before,
     .sidebar-item-active::after {
-      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
+      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''] pointer-events-none;
     }
   
     .sidebar-item-active::before {
@@ -175,7 +175,7 @@ body {
   
     .sidebar-item-hover:hover::before,
     .sidebar-item-hover:hover::after {
-      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
+      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''] pointer-events-none;
     }
   
     .sidebar-item-hover:hover::before {
