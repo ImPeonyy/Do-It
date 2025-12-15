@@ -98,7 +98,7 @@ const SideBar = () => {
                                     >
                                         <SidebarMenuButton
                                             asChild
-                                            className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground"
+                                            className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
                                             isActive={isActive}
                                         >
                                             <a href={item.url}>
