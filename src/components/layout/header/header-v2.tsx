@@ -1,14 +1,18 @@
 'use client';
 
-import { Bell, MessageCircle, PanelLeft } from "lucide-react";
+import { Bell, MessageCircle } from "lucide-react";
 import { Button, Input } from "@/components/ui";
 
-const HeaderV2 = () => {
+interface HeaderV2Props {
+    Trigger: React.ReactNode;
+}
+
+const HeaderV2 = ({ Trigger }: HeaderV2Props) => {
     return (
-        <header className="">
-            <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <header className="grid grid-cols-12">
+            <div className="container col-span-9 mx-auto flex h-16 items-center justify-between px-4">
                 <div >
-                    <Button><PanelLeft /></Button>
+                    {Trigger}
                 </div>
                 <div className="flex items-center space-x-4">
                     <Input
