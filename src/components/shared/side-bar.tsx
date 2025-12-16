@@ -32,8 +32,8 @@ const MainItems = [
         icon: Calendar,
     },
     {
-        title: "Schedule",
-        url: "/schedule",
+        title: "Test",
+        url: "/test",
         icon: Search,
     },
 ];
