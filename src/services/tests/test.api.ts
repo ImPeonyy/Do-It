@@ -1,7 +1,7 @@
 import axiosClient from "@/libs/clients/axios-client";
 import { ApiResponse } from "@/constants/api.type";
-import { PartQuestion, Test, TestDetail } from "./test.interface";
-import { useQuery } from "@tanstack/react-query";
+import { Answer, PartQuestion, SubmitAnswers, Test, TestDetail } from "./test.interface";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import testQueryKey from "./test.qkey";
 
 const getTests = async (page?: number, limit?: number): Promise<ApiResponse<Test[]>> => {
@@ -46,4 +46,15 @@ const useGetPartQuestions = (id: string, part: string[]) => {
     });
 };
 
-export { useGetTests, useGetTest, useGetPartQuestions };
+const submitAnswers = async (testId: string, partId: string, data: SubmitAnswers): Promise<ApiResponse<void>> => {
+    const response = await axiosClient.post(`/tests/${testId}/parts/${partId}/submit`, data);
+    return response.data;
+};
+
+const useSubmitAnswers = (testId: string, partId: string) => {
+    return useMutation({
+        mutationFn: ( data: SubmitAnswers ) => submitAnswers(testId, partId, data),
+    });
+};
+
+export { useGetTests, useGetTest, useGetPartQuestions, useSubmitAnswers };

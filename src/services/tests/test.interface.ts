@@ -1,3 +1,5 @@
+import { ChosenOption } from "@/constants/index";
+
 export interface Test {
     id: number;
     title: string;
@@ -54,11 +56,21 @@ export interface Question {
     audioUrl: string;
     createdAt: string;
     options: TestAnswer[];
-    userAnswer: string | null;
+    userAnswer: ChosenOption | null;
 }
 
 export interface PartQuestion {
     partId: number;
     partNumber: number;
     questions: Question[];
+}
+
+export interface Answer {
+    chosenOption: ChosenOption;
+    questionId: string;
+    passageId: number | null;
+}
+
+export interface SubmitAnswers {
+    answers: Answer[];
 }
