@@ -17,3 +17,12 @@ export function shuffleArray<T>(array: T[]): T[] {
 
     return shuffledArray;
 }
+
+export function formatDateToDDMMYYYY(date: string): string {
+    const dateObj = new Date(date);
+    return dateObj.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+    });
+}

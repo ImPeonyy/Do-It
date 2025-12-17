@@ -36,6 +36,10 @@
     --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
     --sidebar-border: oklch(0.92 0.004 286.32);
     --sidebar-ring: oklch(0.705 0.015 286.067);
+    --fav: #f3aab5;
+    --warning: #ff9900;
+    --success: #00cc00;
+    --error: #ff0000;
 }
 
 @theme inline {
@@ -72,12 +76,16 @@
     --color-popover: var(--popover);
     --color-card-foreground: var(--card-foreground);
     --color-card: var(--card);
-    
+    --color-fav: var(--fav);
+    --color-warning: var(--warning);
+    --color-success: var(--success);
+    --color-error: var(--error);
+
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-    
+
     --spacing-45: 180px;
 }
 
@@ -92,16 +100,6 @@ body {
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer base {
-    :root {
-        --primary: oklch(37.3% 0.034 259.733);
-        --fav: #f3aab5;
-        --warning: #ff9900;
-        --success: #00cc00;
-        --error: #ff0000;
-    }
 }
 
 .dark {
@@ -150,45 +148,45 @@ body {
 @layer utilities {
     /* ACTIVE */
     .sidebar-item-active {
-      position: relative;
+        position: relative;
     }
-  
+
     .sidebar-item-active::before,
     .sidebar-item-active::after {
-      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''] pointer-events-none;
+        @apply pointer-events-none absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
     }
-  
+
     .sidebar-item-active::before {
-      top: -100%;
-      @apply shadow-[35px_35px_0_10px_var(--background)];
+        top: -100%;
+        @apply shadow-[35px_35px_0_10px_var(--background)];
     }
-  
+
     .sidebar-item-active::after {
-      bottom: -100%;
-      @apply shadow-[35px_-35px_0_10px_var(--background)];
+        bottom: -100%;
+        @apply shadow-[35px_-35px_0_10px_var(--background)];
     }
-  
+
     /* HOVER */
     .sidebar-item-hover {
-      position: relative;
+        position: relative;
     }
-  
+
     .sidebar-item-hover:hover::before,
     .sidebar-item-hover:hover::after {
-      @apply absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''] pointer-events-none;
+        @apply pointer-events-none absolute right-0 h-15 w-15 rounded-3xl bg-transparent content-[''];
     }
-  
+
     .sidebar-item-hover:hover::before {
-      top: -100%;
-      @apply shadow-[35px_35px_0_10px_var(--background)];
+        top: -100%;
+        @apply shadow-[35px_35px_0_10px_var(--background)];
     }
-  
+
     .sidebar-item-hover:hover::after {
-      bottom: -100%;
-      @apply shadow-[35px_-35px_0_10px_var(--background)];
+        bottom: -100%;
+        @apply shadow-[35px_-35px_0_10px_var(--background)];
     }
-  
+
     .sidebar-bg {
-      @apply inset-0 bg-gradient-to-b from-[#262239] to-[#46394c] from-8% to-100%;
+        @apply inset-0 bg-gradient-to-b from-[#262239] from-8% to-[#46394c] to-100%;
     }
-  }
+}

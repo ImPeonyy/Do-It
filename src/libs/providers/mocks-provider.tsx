@@ -7,8 +7,6 @@ export default function MockProvider({ children }: { children: React.ReactNode }
     const isUseMocks = process.env.NEXT_PUBLIC_USE_MOCK === "true";
     const [isReady, setIsReady] = useState(!isDevelopment);
 
-    console.log(isDevelopment, isUseMocks);
-
     useEffect(() => {
         if (typeof window === "undefined") {
             setIsReady(true);
