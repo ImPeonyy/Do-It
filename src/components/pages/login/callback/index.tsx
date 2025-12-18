@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useLogin } from "@/services/index";
+import { loginAction } from "@/src/libs/sessions/session.action";
+import { PATH } from "@/src/constants/routes.constant";
 
 const CallBackPage = () => {
     const searchParams = useSearchParams();
@@ -14,7 +16,8 @@ const CallBackPage = () => {
 
     React.useEffect(() => {
         if (code && state) {
-            login({ code, state });
+            loginAction(code, state);
+            redirect(PATH.DASHBOARD);
         }
     }, [code, state, login]);
 
