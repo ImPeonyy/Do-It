@@ -1,7 +1,7 @@
 import CallBackPage from "@/src/components/pages/login/callback";
 
 const Page = () => {
-  <CallBackPage />
+    return <CallBackPage />;
 };
 
 export default Page;

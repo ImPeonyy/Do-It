@@ -14,6 +14,8 @@ import {
 } from "@/components/ui";
 import { Home, Inbox, Calendar, Search, Settings, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useLogout } from "@/services/index";
+import Link from "next/link";
 
 const MainItems = [
     {
@@ -53,6 +55,7 @@ const SubItems = [
 
 const SideBar = () => {
     const pathname = usePathname();
+    const { mutateAsync: logout } = useLogout();
 
     return (
         <Sidebar className="border-none text-white">
@@ -74,10 +77,10 @@ const SideBar = () => {
                                                 className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
                                                 isActive={isActive}
                                             >
-                                                <a href={item.url}>
+                                                <Link href={item.url}>
                                                     <item.icon />
                                                     <span>{item.title}</span>
-                                                </a>
+                                                </Link>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                     );
@@ -100,11 +103,16 @@ const SideBar = () => {
                                             asChild
                                             className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
                                             isActive={isActive}
+                                            onClick={() => {
+                                                if (item.url === "/logout") {
+                                                    logout();
+                                                }
+                                            }}
                                         >
-                                            <a href={item.url}>
+                                            <Link href={item.url}>
                                                 <item.icon />
                                                 <span>{item.title}</span>
-                                            </a>
+                                            </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 );

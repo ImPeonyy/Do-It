@@ -1,30 +1,24 @@
-"use client"
+"use client";
 
-import { useParams } from "next/navigation";
+import * as React from "react";
+import { useSearchParams } from "next/navigation";
+import { useLogin } from "@/services/index";
 
-const CallBackPage = async () => {
-    const { code, state } = useParams<{ code: string, state: string }>();
+const CallBackPage = () => {
+    const searchParams = useSearchParams();
 
-  const data = await fetch('http://localhost:3000/oauth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      code,
-      state
-    }),
-  });
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
 
-  const token = await data.json();
+    const { mutateAsync: login } = useLogin();
 
-  localStorage.setItem("access_token", token);
+    React.useEffect(() => {
+        if (code && state) {
+            login({ code, state });
+        }
+    }, [code, state, login]);
 
-  return (
-    <div>
-        Login
-    </div>
-  )
+    return <div>Loading...</div>;
 };
 
 export default CallBackPage;
