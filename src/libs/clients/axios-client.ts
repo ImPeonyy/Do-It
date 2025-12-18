@@ -1,4 +1,5 @@
 import axios from "axios";
+import { cookies } from "next/headers";
 
 const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -7,8 +8,9 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(async (config) => {
-    const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE3LCJ1c2VyTWV6b25JZCI6IjE5MzY2MDE4MDIxMTE3MTczNzYifQ.rYbuGaRwRBr_yByhZm61Xc7kUJurF2MnAxB4A27GcAw";
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token");
+    console.log(token);
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
