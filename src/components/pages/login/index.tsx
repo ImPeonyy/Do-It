@@ -1,11 +1,16 @@
-import * as React from 'react'
+"use client";
+
+import { Button } from "@/components/ui";
+import { useGetOauthUrl } from "@/services/index";
 
 const LoginPage = () => {
-    return (
-        <div>
-            <h1>Login</h1>
-        </div>
-    );
+    const { mutateAsync: getOauthUrl, isPending } = useGetOauthUrl();
+
+    const handleLogin = () => {
+        getOauthUrl();
+    };
+
+    return <Button onClick={handleLogin} disabled={isPending}>Login</Button>;
 };
 
 export default LoginPage;
