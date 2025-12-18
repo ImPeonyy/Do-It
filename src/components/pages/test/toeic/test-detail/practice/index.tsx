@@ -8,6 +8,8 @@ import { Separator, Skeleton, Tabs, TabsContent, TabsList, TabsTrigger } from "@
 import { MainLayout } from "@/components/layout";
 import QuestionForm from "@/components/shared/question-form";
 import { useScrollSpy } from "@/hooks/index";
+import { toast } from "sonner";
+import { usePathname, useRouter } from "next/navigation";
 
 interface PracticePageProps {
     testId: string;
@@ -16,6 +18,8 @@ interface PracticePageProps {
 
 const PracticePage = ({ testId, part }: PracticePageProps) => {
     const { data: partQuestions, isLoading } = useGetPartQuestions(testId, part);
+    const router = useRouter();
+    const pathname = usePathname();
     const form = useForm<FieldValues>({
         defaultValues: {},
         shouldUnregister: false,
@@ -32,7 +36,11 @@ const PracticePage = ({ testId, part }: PracticePageProps) => {
 
     const [activePartId, setActivePartId] = React.useState<string>(partQuestions?.data[0].partId.toString() ?? "");
     const [activeQuestionId, setActiveQuestionId] = React.useState<string | undefined>(undefined);
-    const { mutate: submitAnswers } = useSubmitAnswers(testId, activePartId);
+    const { mutate: submitAnswers } = useSubmitAnswers(testId, activePartId, () => {
+        toast.success("Submit answers success");
+        const newPath = pathname.replace("/practice", "/result");
+        router.push(newPath);
+    });
 
     const questionRefs = React.useRef<Record<string, HTMLDivElement | null>>({});
     const answeredQuestionIds = React.useMemo(() => {
@@ -50,9 +58,9 @@ const PracticePage = ({ testId, part }: PracticePageProps) => {
     const onSubmit = (activePartId: string) => {
         const allData = form.getValues();
         const activePart = partQuestions?.data.find((p) => p.partId.toString() === activePartId);
-        
+
         if (!activePart) return;
-        
+
         const partData: Answer[] = [];
         activePart.questions.forEach((question) => {
             const questionId = String(question.id);
@@ -64,7 +72,7 @@ const PracticePage = ({ testId, part }: PracticePageProps) => {
                 });
             }
         });
-        submitAnswers({ answers: partData });
+        submitAnswers(partData);
     };
 
     React.useEffect(() => {
@@ -150,12 +158,14 @@ const PracticePage = ({ testId, part }: PracticePageProps) => {
                 <Skeleton className="h-96 w-full" />
             ) : (
                 <div className="border-b border-gray-200 p-5">
-                    <form onSubmit={(e) => {
-                        e.preventDefault();
-                        if (activePartId) {
-                            onSubmit(activePartId);
-                        }
-                    }}>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            if (activePartId) {
+                                onSubmit(activePartId);
+                            }
+                        }}
+                    >
                         <Tabs value={activePartId} onValueChange={(value) => setActivePartId(value)}>
                             <TabsList>
                                 {partQuestions.data.map((partQuestion) => (

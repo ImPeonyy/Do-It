@@ -39,7 +39,12 @@ export interface Part {
     isCompleted: boolean;
 }
 
-export interface TestDetail extends Test {
+export interface TestDetail {
+    test: {
+        id: number;
+        title: string;
+        description: string;
+    };
     parts: Part[];
 }
 
@@ -71,6 +76,28 @@ export interface Answer {
     passageId: number | null;
 }
 
-export interface SubmitAnswers {
-    answers: Answer[];
+export interface Score {
+    listeningScore: number;
+    readingScore: number;
+    totalScore: number;
+}
+
+export interface PartResult {
+    partNumber: number;
+    correct: number;
+    total: number;
+    questions: QuestionResult[];
+}
+
+export interface QuestionResult {
+    questionNumber: number;
+    chosenOption: ChosenOption;
+    correctOption: ChosenOption;
+    isCorrect: boolean;
+}
+
+export interface ToeicTestResult {
+    testTitle: string;
+    score: Score;
+    parts: PartResult[];
 }
