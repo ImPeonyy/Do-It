@@ -21,6 +21,8 @@ const MultipleChoice = ({
     value,
     onChange,
 }: MultipleChoiceProps) => {
+    const sortedOptions = options.sort((a, b) => a.value.localeCompare(b.value));
+    
     return (
         <div className="flex flex-col gap-5">
             <span className="text-xl font-medium">{questionNumber ? `${questionNumber}. ${question}` : question}</span>
@@ -38,8 +40,8 @@ const MultipleChoice = ({
                 <div className="flex flex-col gap-5">
                     {audioUrl && <audio src={audioUrl} controls />}
                     <RadioGroup className="flex flex-col justify-around gap-2" value={value} onValueChange={onChange}>
-                        {options.map((option) => (
-                            <div className="flex items-center gap-2" key={option.value}>
+                        {sortedOptions.map((option) => (
+                            <div className="flex items-center gap-2" key={ `${questionNumber}-${option.value}`}>
                                 <RadioGroupItem id={option.value} value={option.value} />
                                 <Label htmlFor={option.value} className="text-md">
                                     {option.value}. {option.answer}

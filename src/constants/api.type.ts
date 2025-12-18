@@ -1,6 +1,4 @@
 export interface ApiResponse<T> {
-    success: boolean;
-    message: string;
     data: T;
 }
 
@@ -12,7 +10,5 @@ export interface PaginationMeta {
 }
 
 export interface PaginationResponse<T> extends ApiResponse<T[]> {
-    meta: {
-        pagination: PaginationMeta;
-    };
+    pagination: PaginationMeta;
 }

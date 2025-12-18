@@ -20,3 +20,4 @@ export { Kbd, KbdGroup } from "./kbd";
 export { Badge, badgeVariants } from "./badge";
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./tabs";
 export { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel, AlertDialogOverlay, AlertDialogPortal } from "./alert-dialog";
+export { Toaster } from "./sonner";
