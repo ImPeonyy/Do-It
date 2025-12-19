@@ -5,8 +5,8 @@ import { PATH } from "@/src/constants/routes.constant";
 import { redirect } from "next/navigation";
 
 const getOauthUrl = async () => {
-    const response = await axiosClient.get("/oauth/redirect-oauth");
-    return response.data;
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/redirect-oauth`);
+    return response.json();
 };
 
 const useGetOauthUrl = () => {

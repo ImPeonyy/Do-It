@@ -1,17 +1,20 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: "/api/internal",
     timeout: 10000,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
-axiosClient.interceptors.request.use(async (config) => {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+axiosClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+        }
+        return Promise.reject(error);
     }
-    return config;
-});
+);
 
 export default axiosClient;

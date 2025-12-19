@@ -1,6 +1,8 @@
 export const PATH = {
     AUTH: {
         LOGIN: "/login",
+        CALLBACK: "/login/callback",
+        REDIRECT_OAUTH: "/oauth/redirect-oauth",
     },
     DASHBOARD: "/dashboard",
     VOCABULARY: {
@@ -12,6 +14,4 @@ export const PATH = {
     LOGOUT: "/logout",
 };
 
-export const PUBLIC_ROUTES = [
-    PATH.AUTH.LOGIN,
-];
+export const PUBLIC_ROUTES = [PATH.AUTH.LOGIN, PATH.AUTH.CALLBACK, PATH.AUTH.REDIRECT_OAUTH];
