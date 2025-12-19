@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import userQueryKey from "./user.qkey";
 
 const getUserProfile = async (): Promise<ApiResponse<UserProfile>> => {
-    const response = await axiosClient.get("/user/profile");
+    const response = await axiosClient.get("/users/profile");
     return response.data;
 };
 
