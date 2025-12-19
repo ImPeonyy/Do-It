@@ -6,8 +6,6 @@ import { sessionOptions, type SessionData } from "./session";
 
 export async function loginAction(code: string, state: string) {
     const cookieStore = await cookies();
-    console.log("code", code);
-    console.log("state", state);
     const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/login`, {

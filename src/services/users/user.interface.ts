@@ -1,5 +1,7 @@
-export interface User {
-    id: string;
-    firstName: string;
-    lastName: string;
+export interface UserProfile {
+    username: string;
+    formattedJoinDate: string;
+    badges: string[];
+    points: number;
+    streakDays?: number;
 }

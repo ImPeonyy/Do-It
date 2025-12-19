@@ -1,19 +1,19 @@
 import axiosClient from "@/libs/clients/axios-client";
 import { ApiResponse } from "@/constants/api.type";
-import { User } from "./user.interface";
+import { UserProfile } from "./user.interface";
 import { useQuery } from "@tanstack/react-query";
 import userQueryKey from "./user.qkey";
 
-const getUsers = async (): Promise<ApiResponse<User[]>> => {
-    const response = await axiosClient.get("/users");
+const getUserProfile = async (): Promise<ApiResponse<UserProfile>> => {
+    const response = await axiosClient.get("/user/profile");
     return response.data;
 };
 
-const useGetUsers = () => {
+const useGetUserProfile = () => {
     return useQuery({
-        queryKey: userQueryKey.list(),
-        queryFn: getUsers,
+        queryKey: userQueryKey.profile(),
+        queryFn: getUserProfile,
     });
 };
 
-export { getUsers, useGetUsers };
+export { useGetUserProfile };
