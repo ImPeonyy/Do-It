@@ -3,10 +3,13 @@
 import * as React from "react";
 import { HorizontalCard, ProfileCard, TopicCard } from "@/components/shared";
 import { MainLayout } from "@/components/layout";
+import { useGetUserProfile } from "@/src/services";
 
 const DashboardPage = () => {
     const [isActive, setIsActive] = React.useState(false);
+    const { data: userProfile } = useGetUserProfile();
 
+    if (!userProfile?.data) return null;
     return (
         <MainLayout
             subContent={
@@ -14,10 +17,10 @@ const DashboardPage = () => {
                     <div>
                         <ProfileCard
                             image="/mezon-logo.png"
-                            name="John Doe"
-                            email="john.doe@example.com"
-                            points={100}
-                            streaks={10}
+                            name={userProfile.data.username}
+                            badges={userProfile.data.badges}
+                            points={userProfile.data.points}
+                            streaks={userProfile.data.streakDays || 0}
                         />
                     </div>
                     <div>
