@@ -13,9 +13,9 @@ import {
     SidebarSeparator,
 } from "@/components/ui";
 import { Home, Inbox, Calendar, Search, Settings, LogOut } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useLogout } from "@/services/index";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { logoutAction } from "@/src/libs/sessions/session.action";
 
 const MainItems = [
     {
@@ -55,7 +55,15 @@ const SubItems = [
 
 const SideBar = () => {
     const pathname = usePathname();
-    const { mutateAsync: logout } = useLogout();
+    const router = useRouter();
+
+    const handleClick = (url: string) => {
+        if (url === "/logout") {
+            logoutAction();
+        } else {
+            router.push(url);
+        }
+    };
 
     return (
         <Sidebar className="border-none text-white">
@@ -73,14 +81,14 @@ const SideBar = () => {
                                             className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
                                         >
                                             <SidebarMenuButton
-                                                asChild
-                                                className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
+                                                className="h-15 w-full rounded-l-full pl-8 font-bold cursor-pointer hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
                                                 isActive={isActive}
+                                                onClick={() => {
+                                                    handleClick(item.url);
+                                                }}
                                             >
-                                                <Link href={item.url}>
-                                                    <item.icon />
-                                                    <span>{item.title}</span>
-                                                </Link>
+                                                <item.icon />
+                                                <span>{item.title}</span>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
                                     );
@@ -95,27 +103,22 @@ const SideBar = () => {
                                 {SubItems.map((item) => {
                                     const isActive = pathname.startsWith(item.url);
                                     return (
-                                    <SidebarMenuItem
-                                        key={item.title}
-                                        className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
-                                    >
-                                        <SidebarMenuButton
-                                            asChild
-                                            className="h-15 w-full rounded-l-full pl-8 font-bold hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
-                                            isActive={isActive}
-                                            onClick={() => {
-                                                if (item.url === "/logout") {
-                                                    logout();
-                                                }
-                                            }}
+                                        <SidebarMenuItem
+                                            key={item.title}
+                                            className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
                                         >
-                                            <Link href={item.url}>
+                                            <SidebarMenuButton
+                                                className="h-15 w-full rounded-l-full pl-8 font-bold cursor-pointer hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
+                                                isActive={isActive}
+                                                onClick={() => {
+                                                    handleClick(item.url);
+                                                }}
+                                            >
                                                 <item.icon />
                                                 <span>{item.title}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                );
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    );
                                 })}
                             </SidebarMenu>
                         </SidebarGroupContent>

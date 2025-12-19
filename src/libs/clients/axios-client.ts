@@ -1,13 +1,20 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: "/api/internal",
     timeout: 10000,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
 
-axiosClient.interceptors.request.use(async (config) => {
-    return config;
-});
+axiosClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default axiosClient;

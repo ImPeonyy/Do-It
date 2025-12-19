@@ -10,7 +10,19 @@ const LoginPage = () => {
         getOauthUrl();
     };
 
-    return <Button onClick={handleLogin} disabled={isPending}>Login</Button>;
+    return (
+        <div className="mt-[10%] flex h-screen flex-col items-center">
+            <Button
+                onClick={handleLogin}
+                disabled={isPending}
+                variant="outline"
+                size="lg"
+                className="border-foreground text-xl font-bold"
+            >
+                Login with Mezon
+            </Button>
+        </div>
+    );
 };
 
 export default LoginPage;
