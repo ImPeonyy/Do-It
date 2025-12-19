@@ -1,20 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui";
-import { useGetOauthUrl } from "@/services/index";
+import { redirectToOauthAction } from "@/src/libs/sessions/session.action";
 
 const LoginPage = () => {
-    const { mutateAsync: getOauthUrl, isPending } = useGetOauthUrl();
-
     const handleLogin = () => {
-        getOauthUrl();
+        redirectToOauthAction();
     };
 
     return (
         <div className="mt-[10%] flex h-screen flex-col items-center">
             <Button
                 onClick={handleLogin}
-                disabled={isPending}
                 variant="outline"
                 size="lg"
                 className="border-foreground text-xl font-bold"

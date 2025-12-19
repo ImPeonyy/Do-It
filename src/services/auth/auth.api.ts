@@ -4,21 +4,6 @@ import authQueryKey from "./auth.qkey";
 import { PATH } from "@/src/constants/routes.constant";
 import { redirect } from "next/navigation";
 
-const getOauthUrl = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/oauth/redirect-oauth`);
-    return response.json();
-};
-
-const useGetOauthUrl = () => {
-    return useMutation({
-        mutationFn: getOauthUrl,
-        mutationKey: authQueryKey.getOauthUrl(),
-        onSuccess: (data) => {
-            window.location.href = data.url;
-        },
-    });
-};
-
 const login = async (code: string, state: string) => {
     const response = await axiosClient.post("/oauth/login", { code, state });
     return response.data;
@@ -49,4 +34,4 @@ const useLogout = () => {
     });
 };
 
-export { useLogin, useGetOauthUrl, useLogout };
+export { useLogin, useLogout };

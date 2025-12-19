@@ -34,9 +34,7 @@ async function proxy(req: Request, { params }: { params: Promise<{ path: string[
         body,
         headers,
     });
-    console.log("beResxxs", beRes);
     const resBody = await beRes.text();
-    console.log("resBodyxxs", resBody);
 
     return new NextResponse(resBody, {
         status: beRes.status,
