@@ -6,17 +6,16 @@ import { PartQuestion, Test, TestDetail } from "@/services/tests/test.interface"
 export const testHandle = [
     http.get("/tests", () => {
         return HttpResponse.json<ApiResponse<Test[]>>({
-            success: true,
-            message: "Success",
             data: testData.tests,
         });
     }),
 
     http.get("/tests/:id", () => {
         return HttpResponse.json<ApiResponse<TestDetail>>({
-            success: true,
-            message: "Success",
-            data: testData.testDetail,
+            data: {
+                test: testData.testDetail,
+                parts: testData.testDetail.parts,
+            },
         });
     }),
 
@@ -25,8 +24,6 @@ export const testHandle = [
         const parts = url.searchParams.getAll("part");
         
         return HttpResponse.json<ApiResponse<PartQuestion[]>>({
-            success: true,
-            message: "Success",
             data: testData.partQuestions.filter((part) => parts.includes(part.partId.toString())),
         });
     }),

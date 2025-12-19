@@ -1,12 +1,16 @@
 [
     {
-        "id": "abc-123",
-        "firstName": "John",
-        "lastName": "Maverick"
+        "username": "jane_doe",
+        "formattedJoinDate": "2021-01-01",
+        "badges": ["badge-1", "badge-2"],
+        "points": 100,
+        "streakDays": 5
     },
     {
-        "id": "abc-124",
-        "firstName": "Jane",
-        "lastName": "Doe"
+        "username": "jane_doe",
+        "formattedJoinDate": "2021-01-01",
+        "badges": ["badge-1", "badge-2"],
+        "points": 100,
+        "streakDays": 5
     }
 ]
