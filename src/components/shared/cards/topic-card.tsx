@@ -10,12 +10,12 @@ export interface TopicCardProps {
     title: string;
     image: string;
     link: string;
-    isActive: boolean;
-    onClick: () => void;
+    isActive?: boolean;
+    onClick?: () => void;
     className?: string;
 }
 
-const TopicCard = ({ title, image, link, isActive, onClick, className }: TopicCardProps) => {
+const TopicCard = ({ title, image, link, isActive = false, onClick, className }: TopicCardProps) => {
     return (
         <Link
             href={link}
@@ -29,7 +29,7 @@ const TopicCard = ({ title, image, link, isActive, onClick, className }: TopicCa
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
-                    onClick();
+                    onClick?.();
                 }}
             >
                 <div
