@@ -1,21 +1,16 @@
 import TopicPage from "@/components/pages/flashcard/topic";
+import { EFlashCardMode } from "@/components/pages/flashcard";
 
-type TopicType = "learn" | "test";
-
-interface PageProps {
-    searchParams?: {
-        type?: TopicType;
-        page?: string;
-        limit?: string;
-    };
+interface SearchParams {
+    mode?: EFlashCardMode;
+    page?: number;
+    limit?: number;
 }
 
-const Page = ({ searchParams }: PageProps) => {
-    const type: TopicType = (searchParams?.type as TopicType) ?? "learn";
-    const page = searchParams?.page ? Number(searchParams.page) : 1;
-    const limit = searchParams?.limit ? Number(searchParams.limit) : 6;
+const Page = async ({ searchParams }: { searchParams: Promise<SearchParams> }) => {
+    const { mode, page, limit } = await searchParams;
 
-    return <TopicPage type={type} page={page} limit={limit} />;
+    return <TopicPage mode={mode} page={page} limit={limit} />;
 };
 
 export default Page;

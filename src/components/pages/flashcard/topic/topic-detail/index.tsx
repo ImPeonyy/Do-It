@@ -14,30 +14,44 @@ import {
     FlashCard,
     Input,
     type CarouselApi,
+    EFlashCardEffect,
 } from "@/components/ui";
-import { useGetVocabulariesTopic, Vocabulary } from "@/src/services";
+import {
+    TopicTestResultResponse,
+    useGetVocabulariesTopic,
+    useSubmitTestAnswers,
+    VocabsTestAnswer,
+    Vocabulary,
+} from "@/src/services";
 import { AiLoading, PageTitle } from "@/components/shared";
 import { EFlashCardMode, FLASHCARD_MODE_OPTIONS } from "../../index";
-import { HeartIcon } from "lucide-react";
-import { EFlashCardEffect } from "@/components/ui";
+import { HeartIcon, Volume2 } from "lucide-react";
 import { normalizeString } from "@/src/utils";
-import { Controller, FieldValues, useForm } from "react-hook-form";
-
+import { playTTS } from "@/src/utils";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useQueryClient } from "@tanstack/react-query";
 interface TopicDetailPageProps {
     topicId: string;
-    type: EFlashCardMode;
+    mode: EFlashCardMode;
 }
 
-const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
+const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
     const router = useRouter();
     const topicIdNumber = parseInt(topicId, 10);
-    const { data: topicDetailData, isLoading: isLoadingVocabularies } = useGetVocabulariesTopic(topicIdNumber, type);
+    const queryClient = useQueryClient();
+    const { data: topicDetailData, isLoading: isLoadingVocabularies } = useGetVocabulariesTopic(topicIdNumber, mode);
+    const { mutate: submitTestAnswersMutation } = useSubmitTestAnswers((data: TopicTestResultResponse) => {
+        queryClient.setQueryData(["topic-test-result", topicId], data);
+        router.push(`/flashcard/topic/${topicId}/result`);
+    });
 
     const currentTopic = topicDetailData?.data;
     const vocabularies = React.useMemo(() => topicDetailData?.data?.vocabs || [], [topicDetailData?.data?.vocabs]);
 
-    const isPracticeMode = type === EFlashCardMode.PRACTICE;
-    const isTestMode = type === EFlashCardMode.TEST;
+    const isPracticeMode = mode === EFlashCardMode.PRACTICE;
+    const isTestMode = mode === EFlashCardMode.TEST;
 
     const [api, setApi] = React.useState<CarouselApi>();
     const [current, setCurrent] = React.useState(0);
@@ -46,21 +60,52 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
     const [flippedCards, setFlippedCards] = React.useState<Set<number>>(new Set());
 
     const defaultAnswers = React.useMemo(() => {
-        return vocabularies.reduce((acc: Record<number, string>, vocab: Vocabulary) => {
-            acc[vocab.id] = "";
+        return vocabularies.reduce((acc: Record<string, string>, vocab: Vocabulary) => {
+            acc[String(vocab.id)] = "";
             return acc;
         }, {});
     }, [vocabularies]);
 
-    const form = useForm<FieldValues>({
+    const testAnswersSchema = React.useMemo(() => {
+        const answersSchema = vocabularies.reduce(
+            (acc, vocab) => {
+                acc[String(vocab.id)] = z
+                    .string()
+                    .min(1, { message: "Please enter the meaning of this word" })
+                    .refine((val) => val.trim().length > 0, {
+                        message: "Please enter the meaning of this word",
+                    });
+                return acc;
+            },
+            {} as Record<string, z.ZodString>
+        );
+
+        return z.object({
+            answers: z.object(answersSchema),
+        });
+    }, [vocabularies]);
+
+    type TestAnswersForm = z.infer<typeof testAnswersSchema>;
+
+    const form = useForm<TestAnswersForm>({
+        resolver: zodResolver(testAnswersSchema),
         defaultValues: {
-            answers: defaultAnswers,
+            answers: defaultAnswers as Record<string, string>,
         },
+        mode: "onChange",
     });
 
-    const submitTestAnswers = (data: FieldValues) => {
-        const answers = data.answers;
-        console.log(answers);
+    const submitTestAnswers = (data: TestAnswersForm) => {
+        const answers: VocabsTestAnswer[] = [];
+        Object.entries(data.answers).forEach(([key, value]) => {
+            if (value && value.trim().length > 0) {
+                answers.push({
+                    id: parseInt(key, 10),
+                    answer: value.trim(),
+                });
+            }
+        });
+        submitTestAnswersMutation({ topicId: topicIdNumber, answers });
     };
 
     React.useEffect(() => {
@@ -75,8 +120,8 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
 
     React.useEffect(() => {
         if (vocabularies.length > 0) {
-            const defaultAnswers = vocabularies.reduce((acc: Record<number, string>, vocab: Vocabulary) => {
-                acc[vocab.id] = "";
+            const defaultAnswers = vocabularies.reduce((acc: Record<string, string>, vocab: Vocabulary) => {
+                acc[String(vocab.id)] = "";
                 return acc;
             }, {});
             form.reset({
@@ -124,6 +169,15 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
         }
     };
 
+    const handlePlayAudio = async (text: string, e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        try {
+            await playTTS(text, { lang: "en-US", speed: 1 });
+        } catch (error) {
+            console.error("Error playing audio:", error);
+        }
+    };
+
     if (isLoadingVocabularies) {
         return (
             <MainLayout>
@@ -147,7 +201,7 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
         );
     }
 
-    if (!Object.values(EFlashCardMode).includes(type)) {
+    if (!Object.values(EFlashCardMode).includes(mode)) {
         return (
             <div className="flex min-h-[400px] flex-col items-center justify-center gap-8">
                 <span className="mt-5 text-3xl font-bold">Please choose a mode to start</span>
@@ -175,7 +229,7 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
                                 className="mt-4 px-8"
                                 size="lg"
                                 variant={index % 2 === 0 ? "default" : "secondary"}
-                                onClick={() => router.push(`/flashcard/topic/${topicId}?type=${option.type}`)}
+                                onClick={() => router.push(`/flashcard/topic/${topicId}?mode=${option.mode}`)}
                             >
                                 Start {option.label}
                             </Button>
@@ -208,8 +262,22 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
                                                             <div className="flex w-full flex-col items-center justify-center gap-2">
                                                                 <div className="text-3xl font-bold">{vocab.word}</div>
                                                                 {vocab.pronounce && (
-                                                                    <div className="text-muted-foreground text-lg">
-                                                                        /{vocab.pronounce}/
+                                                                    <div className="flex items-center justify-center gap-2">
+                                                                        <div className="text-muted-foreground text-lg">
+                                                                            /{vocab.pronounce}/
+                                                                        </div>
+                                                                        <Button
+                                                                            type="button"
+                                                                            variant="ghost"
+                                                                            size="sm"
+                                                                            className="h-8 w-8 p-0"
+                                                                            onClick={(e) =>
+                                                                                handlePlayAudio(vocab.word, e)
+                                                                            }
+                                                                            title="Play audio"
+                                                                        >
+                                                                            <Volume2 className="h-4 w-4" />
+                                                                        </Button>
                                                                     </div>
                                                                 )}
                                                                 {vocab.partOfSpeech && (
@@ -223,15 +291,32 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
                                                                         control={form.control}
                                                                         name={`answers.${vocab.id}`}
                                                                         defaultValue=""
-                                                                        render={({ field }) => (
-                                                                            <Input
-                                                                                type="text"
-                                                                                placeholder="Enter the meaning of the word..."
-                                                                                value={field.value ?? ""}
-                                                                                onChange={field.onChange}
-                                                                                onBlur={field.onBlur}
-                                                                                name={field.name}
-                                                                            />
+                                                                        render={({ field, fieldState }) => (
+                                                                            <div className="w-full">
+                                                                                <Input
+                                                                                    type="text"
+                                                                                    placeholder="Enter the meaning of the word..."
+                                                                                    value={field.value ?? ""}
+                                                                                    onChange={field.onChange}
+                                                                                    onBlur={field.onBlur}
+                                                                                    name={field.name}
+                                                                                    autoComplete="off"
+                                                                                    autoFocus={true}
+                                                                                    onKeyDown={(e) => {
+                                                                                        e.stopPropagation();
+                                                                                    }}
+                                                                                    className={
+                                                                                        fieldState.error
+                                                                                            ? "border-destructive"
+                                                                                            : ""
+                                                                                    }
+                                                                                />
+                                                                                {fieldState.error && (
+                                                                                    <p className="text-destructive mt-1 text-xs">
+                                                                                        {fieldState.error.message}
+                                                                                    </p>
+                                                                                )}
+                                                                            </div>
                                                                         )}
                                                                     />
                                                                 </div>
@@ -271,6 +356,9 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
                                 <Button type="submit" size="lg">
                                     Submit Answers
                                 </Button>
+                                {Object.keys(form.formState.errors.answers || {}).length > 0 && (
+                                    <p className="text-destructive text-sm">Please fill in all the answers</p>
+                                )}
                             </div>
                         </form>
                     </div>
@@ -299,8 +387,20 @@ const TopicDetailPage = ({ topicId, type }: TopicDetailPageProps) => {
                                                     <div className="flex flex-col gap-2">
                                                         <div className="text-3xl font-bold">{vocab.word}</div>
                                                         {vocab.pronounce && (
-                                                            <div className="text-muted-foreground text-lg">
-                                                                /{vocab.pronounce}/
+                                                            <div className="flex items-center justify-center gap-2">
+                                                                <div className="text-muted-foreground text-lg">
+                                                                    /{vocab.pronounce}/
+                                                                </div>
+                                                                <Button
+                                                                    type="button"
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    className="h-8 w-8 p-0"
+                                                                    onClick={(e) => handlePlayAudio(vocab.word, e)}
+                                                                    title="Phát âm"
+                                                                >
+                                                                    <Volume2 className="h-4 w-4" />
+                                                                </Button>
                                                             </div>
                                                         )}
                                                         {vocab.partOfSpeech && (

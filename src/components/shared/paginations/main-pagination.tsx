@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui"
 import { cn } from "@/libs/utils"
 
 type MainPaginationProps = {
@@ -74,7 +74,6 @@ const MainPagination: React.FC<MainPaginationProps> = ({
   return (
     <Pagination className={cn("mt-6", className)}>
       <PaginationContent>
-        {/* Prev */}
         <PaginationItem>
           <PaginationPrevious
             href={buildHref(currentPage - 1)}
@@ -93,7 +92,6 @@ const MainPagination: React.FC<MainPaginationProps> = ({
           />
         </PaginationItem>
 
-        {/* Pages */}
         {pages.map((p, index) =>
           p === "ellipsis" ? (
             <PaginationItem key={`ellipsis-${index}`}>
@@ -117,7 +115,6 @@ const MainPagination: React.FC<MainPaginationProps> = ({
           )
         )}
 
-        {/* Next */}
         <PaginationItem>
           <PaginationNext
             href={buildHref(currentPage + 1)}

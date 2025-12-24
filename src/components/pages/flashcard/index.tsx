@@ -15,20 +15,20 @@ export const FLASHCARD_MODE_OPTIONS = [
         label: "Learn Mode",
         icon: "L",
         description: "Learn vocabulary with flashcard, example, pronunciation to remember better.",
-        type: EFlashCardMode.LEARN,
+        mode: EFlashCardMode.LEARN,
     },
     {
         label: "Practice Mode",
         icon: "P",
         description: "Test your knowledge with fill in the blank and flip the card when you answer correctly.",
-        type: EFlashCardMode.PRACTICE,
+        mode: EFlashCardMode.PRACTICE,
     },
     {
         label: "Test Mode",
         icon: "T",
         description:
             "Complete an entire topic as a test, submit your answers, and receive results and points based on your performance.",
-        type: EFlashCardMode.TEST,
+        mode: EFlashCardMode.TEST,
     },
 ];
 
@@ -62,7 +62,7 @@ const FlashCardPage = () => {
                             className="mt-4 px-8"
                             size="lg"
                             variant={index % 2 === 0 ? "default" : "secondary"}
-                            onClick={() => router.push(`/flashcard/topic?type=${option.type}`)}
+                            onClick={() => router.push(`/flashcard/topic?mode=${option.mode}`)}
                         >
                             Start {option.label}
                         </Button>

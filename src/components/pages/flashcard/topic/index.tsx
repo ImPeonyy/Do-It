@@ -1,28 +1,43 @@
 "use client";
 
-import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { MainLayout } from "@/components/layout";
 import { AiLoading, TopicCard } from "@/components/shared";
 import { useGetTopics } from "@/src/services";
 import PageTitle from "@/components/shared/page-title";
-import MainPagination from "@/src/components/shared/paginations/main-pagination";
+import MainPagination from "@/components/shared/paginations/main-pagination";
+import { EFlashCardMode } from "..";
 
 interface TopicPageProps {
-    page: number;
-    limit: number;
-    type: "learn" | "test";
+    page?: number;
+    limit?: number;
+    mode?: EFlashCardMode;
 }
 
-const TopicPage = ({ page, limit, type }: TopicPageProps) => {
+const TopicPage = ({ page, limit, mode }: TopicPageProps) => {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const { data: topicsData, isLoading } = useGetTopics({ page: page || 1, limit: limit || 6 });
+    const { data: topicsData, isLoading } = useGetTopics({ page: page ?? 1, limit: limit ?? 6 });
     const pagination = topicsData?.pagination;
 
     const topics = topicsData?.data || [];
-    const totalPages = pagination?.totalPages || 1;
-    const currentPage = page || 1;
+    const totalPages = pagination?.totalPages ?? 1;
+    const currentPage = pagination?.page ?? 1;
+    const limitItems = pagination?.limit ?? 6;
+
+    const handlePageChange = (page: number) => {
+        router.push(
+            mode
+                ? `/flashcard/topic?page=${page}&limit=${limitItems}&mode=${mode}`
+                : `/flashcard/topic?page=${page}&limit=${limitItems}`
+        );
+    };
+
+    console.log({
+        pageProp: page,
+        currentPage,
+        totalPages,
+        pagination,
+    });
 
     if (isLoading) {
         return (
@@ -51,16 +66,20 @@ const TopicPage = ({ page, limit, type }: TopicPageProps) => {
                                     key={topic.id}
                                     title={topic.name}
                                     image="/mezon-logo.png"
-                                    link={`${type ? `/flashcard/topic/${topic.id}?type=${type}` : `/flashcard/topic/${topic.id}`}`}
+                                    link={`${mode ? `/flashcard/topic/${topic.id}?mode=${mode}` : `/flashcard/topic/${topic.id}`}`}
                                 />
                             ))}
                         </div>
                         <MainPagination
                             currentPage={currentPage}
                             totalPages={totalPages}
-                            getHref={(page) => `/flashcard/topic?page=${page}&limit=${limit}&type=${type}`}
+                            getHref={(page) =>
+                                mode
+                                    ? `/flashcard/topic?page=${page}&limit=${limitItems}&mode=${mode}`
+                                    : `/flashcard/topic?page=${page}&limit=${limitItems}`
+                            }
+                            onPageChange={(page) => handlePageChange(page)}
                         />
-                        
                     </div>
                 )}
             </div>

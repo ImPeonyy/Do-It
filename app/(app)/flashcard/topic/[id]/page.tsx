@@ -1,18 +1,18 @@
 import TopicDetailPage from "@/components/pages/flashcard/topic/topic-detail";
-import { EFlashCardMode } from "@/src/components/pages/flashcard";
+import { EFlashCardMode } from "@/components/pages/flashcard";
 
 interface Params {
     id: string;
 }
 
 interface SearchParams {
-    type: EFlashCardMode;
+    mode: EFlashCardMode;
 }
 
-const Page = async ({ params, searchParams }: { params: Promise<Params>, searchParams: Promise<SearchParams> }) => {
+const Page = async ({ params, searchParams }: { params: Promise<Params>; searchParams: Promise<SearchParams> }) => {
     const { id } = await params;
-    const { type } = await searchParams;
-    return <TopicDetailPage topicId={id} type={type} />;
+    const { mode } = await searchParams;
+    return <TopicDetailPage topicId={id} mode={mode} />;
 };
 
 export default Page;

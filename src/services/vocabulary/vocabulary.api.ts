@@ -1,16 +1,17 @@
 import axiosClient from "@/libs/clients/axios-client";
 import vocabularyQueryKey from "./vocabulary.qkey";
-import { useQuery } from "@tanstack/react-query";
-import { Topic, TopicDetail } from "./vocabulary.interface";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Topic, TopicDetail, TopicTestResultResponse, VocabsTestAnswer } from "./vocabulary.interface";
 import { ApiResponse, PaginationResponse } from "@/constants/api.type";
 import { EFlashCardMode } from "@/src/components/pages/flashcard";
+import { toast } from "sonner";
 
-const getTopics = async (params: { page: number, limit: number }): Promise<PaginationResponse<Topic>> => {
+const getTopics = async (params: { page: number; limit: number }): Promise<PaginationResponse<Topic>> => {
     const response = await axiosClient.get("/topics", { params });
     return response.data;
 };
 
-const useGetTopics = (params: { page: number, limit: number }) => {
+const useGetTopics = (params: { page: number; limit: number }) => {
     return useQuery({
         queryKey: vocabularyQueryKey.topics(params.page, params.limit),
         queryFn: () => getTopics(params),
@@ -39,7 +40,6 @@ const useGetVocabulariesTopic = (topicId: number, type: EFlashCardMode) => {
     });
 };
 
-
 const getRandomTopics = async (): Promise<ApiResponse<Topic[]>> => {
     const response = await axiosClient.get("/topics/random");
     return response.data;
@@ -52,4 +52,28 @@ const useGetRandomTopics = () => {
     });
 };
 
-export { useGetTopics, useGetVocabulariesTopic, useGetRandomTopics };
+const submitTestAnswers = async (
+    topicId: number,
+    answers: VocabsTestAnswer[]
+): Promise<ApiResponse<TopicTestResultResponse>> => {
+    const response = await axiosClient.post(`/topics/test/${topicId}/submit`, [...answers]);
+    return response.data;
+};
+
+const useSubmitTestAnswers = (onSuccess: (data: TopicTestResultResponse) => void) => {
+    return useMutation({
+        mutationFn: ({
+            topicId,
+            answers,
+        }: {
+            topicId: number;
+            answers: VocabsTestAnswer[];
+        }): Promise<TopicTestResultResponse> => submitTestAnswers(topicId, answers).then((res) => res.data),
+        onSuccess: (data: TopicTestResultResponse) => {
+            toast.success("Submit answers success");
+            onSuccess(data);
+        },
+    });
+};
+
+export { useGetTopics, useGetVocabulariesTopic, useGetRandomTopics, useSubmitTestAnswers };
