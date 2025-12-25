@@ -9,3 +9,6 @@ export { default as ToeicTestCard } from "./cards/toeic-test-card";
 export { default as MultipleChoice } from "./exercises/types/multiple-choice";
 export { default as TrueFalseChoice } from "./exercises/types/true-false-choice";
 export { default as AiLoading } from "./loadings/ai-loading";
+
+
+export { default as Leaderboard } from "./leader-board/leader-board"
