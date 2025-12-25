@@ -8,16 +8,12 @@ export interface UserDetail {
 
 export interface LeaderBoard {
   id: number;
-
   userId: string;
-
   user?: UserDetail;
-
   totalAnswers: number;
   correctAnswers: number;
   points: number;
   streakDays: number;
   lastAnswerDate: string;
-
   badges: string[];
 }
