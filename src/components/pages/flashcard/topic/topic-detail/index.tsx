@@ -301,7 +301,6 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
                                                                                     onBlur={field.onBlur}
                                                                                     name={field.name}
                                                                                     autoComplete="off"
-                                                                                    autoFocus={true}
                                                                                     onKeyDown={(e) => {
                                                                                         e.stopPropagation();
                                                                                     }}

@@ -9,6 +9,10 @@ export * from "./tests/test.api";
 export { default as testQueryKey } from "./tests/test.qkey";
 export * from "./tests/test.interface";
 
+export * from "./leader-board/leader-board.api";
+export { default as leaderBoardQueryKey } from "./leader-board/leader-board.qkey";
+export * from "./leader-board/leader-board.interface";
+
 export * from "./communication/communication.api";
 export * from "./communication/communication.interface";
 
