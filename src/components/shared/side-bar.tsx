@@ -33,8 +33,8 @@ const MainItems = [
         icon: Inbox,
     },
     {
-        title: "Vocabulary Test",
-        url: "/vocabulary/test",
+        title: "Flash Card",
+        url: "/flashcard",
         icon: Calendar,
     },
     {

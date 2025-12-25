@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Room, RoomEvent, Track, createLocalTracks, createLocalScreenTracks, LocalTrack } from "livekit-client";
 import { Monitor, MonitorOff, Mic, MicOff, Video, VideoOff, PhoneOff } from "lucide-react";
-import { createLiveKitRoom, getLiveKitToken }  from "@/src/services";
-import { ChatMsg } from "@/src/constants/chat-msg.type";
+import { createLiveKitRoom, getLiveKitToken } from "@/src/services";
+import { ChatMsg } from "@/src/constants";
 
 const ChatMessage = ({ msg }: { msg: ChatMsg }) => (
     <div className={`mb-2 ${msg.self ? "text-right" : "text-left"}`}>
@@ -141,7 +141,7 @@ export default function CallPage() {
 
             room.localParticipant.unpublishTrack(track);
             track.stop();
-            track.detach(); 
+            track.detach();
 
             screenTrackRef.current = null;
             setScreenSharing(false);

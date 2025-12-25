@@ -6,8 +6,12 @@ export { default as userQueryKey } from "./users/user.qkey";
 export * from "./users/user.interface";
 
 export * from "./tests/test.api";
-export * from "./tests/test.interface";
 export { default as testQueryKey } from "./tests/test.qkey";
+export * from "./tests/test.interface";
 
 export * from "./communication/communication.api";
 export * from "./communication/communication.interface";
+
+export * from "./vocabulary/vocabulary.api";
+export { default as vocabularyQueryKey } from "./vocabulary/vocabulary.qkey";
+export * from "./vocabulary/vocabulary.interface";

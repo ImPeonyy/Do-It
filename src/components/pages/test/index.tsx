@@ -2,24 +2,23 @@
 
 import * as React from "react";
 import { PageTitle, ToeicTestCard } from "@/components/shared";
-import { useGetTests, Test } from "@/services/index";
-import { Skeleton } from "@/components/ui";
+import { Test } from "@/src/services";
+import { PaginationResponse } from "@/src/constants";
 
-const TestPage = () => {
-    const { data: tests, isLoading } = useGetTests();
+interface TestPageProps {
+    testsPagination: PaginationResponse<Test[]>;
+}
 
-    if (!tests?.data) return null;
+const TestPage = ({ testsPagination }: TestPageProps) => {
+    if (!testsPagination?.data) return null;
 
     return (
         <div className="flex flex-col gap-5">
             <PageTitle title="Test" />
             <div className="flex flex-col gap-2">
                 <span className="text-3xl font-bold">Toeic Test</span>
-                {isLoading ? (
-                    Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="h-36 w-full" />)
-                ) : (
                     <div className="flex gap-4">
-                        {tests.data.map((test: Test) => (
+                        {testsPagination.data.map((test: Test) => (
                             <ToeicTestCard
                                 key={test.id}
                                 title={test.title}
@@ -30,7 +29,6 @@ const TestPage = () => {
                             />
                         ))}
                     </div>
-                )}
             </div>
         </div>
     );

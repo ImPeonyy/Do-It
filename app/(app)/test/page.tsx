@@ -1,10 +1,13 @@
 import { MainLayout } from "@/components/layout";
 import TestPage from "@/components/pages/test";
+import { ServerTestsService } from "@/src/services/server-side";
 
-const Page = () => {
+const Page = async () => {
+    const tests = await ServerTestsService.getTests();
+    
     return (
         <MainLayout>
-            <TestPage />
+            <TestPage testsPagination={tests} />
         </MainLayout>
     );
 };

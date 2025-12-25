@@ -1,4 +1,4 @@
-const AiLoading = ({ content }: { content: string }) => {
+const AiLoading = ({ content = "Loading..." }: { content?: string }) => {
     return (
         <div className="relative flex h-45 w-45 items-center justify-center rounded-full bg-transparent font-['Inter',sans-serif] text-[1.2em] font-light text-white select-none">
             {content.split("").map((letter, index) => (

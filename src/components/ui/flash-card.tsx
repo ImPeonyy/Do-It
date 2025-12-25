@@ -2,7 +2,7 @@ import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/libs/utils";
 
-const flashCardVariants = cva(`inline-block w-80 h-48 text-(--primary) m-5 cursor-pointer`, {
+const flashCardVariants = cva(`w-80 h-48 text-foreground cursor-pointer`, {
     variants: {
         variant: {
             default: "bg-transparent",
@@ -23,7 +23,7 @@ export interface FlashCardProps extends VariantProps<typeof flashCardVariants> {
     className?: string;
     effect?: EFlashCardEffect;
     frontContent: React.ReactNode;
-    backContent: React.ReactNode;
+    backContent?: React.ReactNode;
     width?: string;
     height?: string;
     flipOnHover?: boolean;
@@ -50,11 +50,20 @@ const FlashCard = ({
     const [flipped, setFlipped] = React.useState<boolean>(initialFlipped);
     const lastFlipSignalRef = React.useRef<number | undefined>(flipSignal);
 
+    React.useEffect(() => {
+        setFlipped(initialFlipped);
+    }, [initialFlipped]);
+
     function toggleFlip() {
         if (disabled) return;
         setFlipped((s: boolean) => {
             const next = !s;
-            onFlip?.(next);
+
+            if (onFlip) {
+                setTimeout(() => {
+                    onFlip(next);
+                }, 0);
+            }
             return next;
         });
     }
@@ -65,7 +74,12 @@ const FlashCard = ({
         lastFlipSignalRef.current = flipSignal;
         setFlipped((s: boolean) => {
             const next = !s;
-            onFlip?.(next);
+
+            if (onFlip) {
+                setTimeout(() => {
+                    onFlip(next);
+                }, 0);
+            }
             return next;
         });
     }, [flipSignal, onFlip, disabled]);

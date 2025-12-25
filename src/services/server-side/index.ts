@@ -1,0 +1,1 @@
+export { default as ServerTestsService } from "./tests/tests.service";

@@ -1,5 +1,5 @@
 import axiosClient from "@/libs/clients/axios-client";
-import { ApiResponse } from "@/constants/api.type";
+import { ApiResponse } from "@/src/constants";
 import { LiveKitTokenResponse } from "./communication.interface";
 
 const createLiveKitRoom = async (): Promise<ApiResponse<{ roomName: string }>> => {
