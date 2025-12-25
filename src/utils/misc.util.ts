@@ -26,3 +26,11 @@ export function formatDateToDDMMYYYY(date: string): string {
         year: "2-digit",
     });
 }
+
+export function normalizeString(str: string): string {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/[.,;:!?]/g, "");
+}
