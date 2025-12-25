@@ -8,3 +8,6 @@ export * from "./users/user.interface";
 export * from "./tests/test.api";
 export * from "./tests/test.interface";
 export { default as testQueryKey } from "./tests/test.qkey";
+
+export * from "./communication/communication.api";
+export * from "./communication/communication.interface";

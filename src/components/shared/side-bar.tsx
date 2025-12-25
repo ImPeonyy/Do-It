@@ -14,7 +14,6 @@ import {
 } from "@/components/ui";
 import { Home, Inbox, Calendar, Search, Settings, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
 import { logoutAction } from "@/src/libs/sessions/session.action";
 
 const MainItems = [
@@ -22,6 +21,11 @@ const MainItems = [
         title: "Dashboard",
         url: "/dashboard",
         icon: Home,
+    },
+    {
+        title: "Communication",
+        url: "/communication",
+        icon: Inbox,
     },
     {
         title: "Vocabulary Learn",
