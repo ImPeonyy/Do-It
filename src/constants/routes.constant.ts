@@ -5,6 +5,7 @@ export const PATH = {
         REDIRECT_OAUTH: "/oauth/redirect-oauth",
     },
     DASHBOARD: "/dashboard",
+    COMMUNICATION: "/communication",
     VOCABULARY: {
         LEARN: "/vocabulary/learn",
         TEST: "/vocabulary/test",
