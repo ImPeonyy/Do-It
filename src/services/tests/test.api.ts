@@ -66,4 +66,4 @@ const useGetTestResult = (testId: string) => {
     });
 };
 
-export { getTests, useGetTests, useGetTest, useGetPartQuestions, useSubmitAnswers, useGetTestResult };
+export { useGetTests, useGetTest, useGetPartQuestions, useSubmitAnswers, useGetTestResult };

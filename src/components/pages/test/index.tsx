@@ -17,21 +17,21 @@ const TestPage = ({ testsPagination }: TestPageProps) => {
             <PageTitle title="Test" />
             <div className="flex flex-col gap-2">
                 <span className="text-3xl font-bold">Toeic Test</span>
-                    <div className="flex gap-4">
-                        {testsPagination.data.map((test: Test) => (
-                            <ToeicTestCard
-                                key={test.id}
-                                title={test.title}
-                                description={test.description}
-                                path={`/toeic/${test.id}`}
-                                partsProcess={test.partsProcess}
-                                createdAt={test.createdAt}
-                            />
-                        ))}
-                    </div>
+                <div className="flex gap-4">
+                    {testsPagination.data.map((test: Test) => (
+                        <ToeicTestCard
+                            key={test.id}
+                            title={test.title}
+                            description={test.description}
+                            path={`/toeic/${test.id}`}
+                            partsProcess={test.partsProcess}
+                            createdAt={test.createdAt}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
-  );
+    );
 };
 
 export default TestPage;
