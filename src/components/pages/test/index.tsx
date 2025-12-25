@@ -3,15 +3,14 @@
 import * as React from "react";
 import { PageTitle, ToeicTestCard } from "@/components/shared";
 import { Test } from "@/src/services";
-import { ApiResponse } from "@/src/constants";
+import { PaginationResponse } from "@/src/constants";
 
 interface TestPageProps {
-    tests: ApiResponse<Test[]>;
+    testsPagination: PaginationResponse<Test[]>;
 }
 
-const TestPage = ({ tests }: TestPageProps) => {
-
-    if (!tests?.data) return null;
+const TestPage = ({ testsPagination }: TestPageProps) => {
+    if (!testsPagination?.data) return null;
 
     return (
         <div className="flex flex-col gap-5">
@@ -19,7 +18,7 @@ const TestPage = ({ tests }: TestPageProps) => {
             <div className="flex flex-col gap-2">
                 <span className="text-3xl font-bold">Toeic Test</span>
                     <div className="flex gap-4">
-                        {tests.data.map((test: Test) => (
+                        {testsPagination.data.map((test: Test) => (
                             <ToeicTestCard
                                 key={test.id}
                                 title={test.title}
