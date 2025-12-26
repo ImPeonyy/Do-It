@@ -19,3 +19,7 @@ export * from "./communication/communication.interface";
 export * from "./vocabulary/vocabulary.api";
 export { default as vocabularyQueryKey } from "./vocabulary/vocabulary.qkey";
 export * from "./vocabulary/vocabulary.interface";
+
+export * from "./client-side/user-stats/user-stats.api";
+export { default as userStatsQueryKey } from "./client-side/user-stats/user-stats.qkey";
+export * from "./client-side/user-stats/user-stats.interface";

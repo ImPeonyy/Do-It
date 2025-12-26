@@ -1,5 +1,3 @@
-import React from "react"
-
 import {
   Pagination,
   PaginationContent,
@@ -49,13 +47,13 @@ const createPageList = (current: number, total: number) => {
   return pages
 }
 
-const MainPagination: React.FC<MainPaginationProps> = ({
+const MainPagination = ({
   currentPage,
   totalPages,
   onPageChange,
   getHref,
   className,
-}) => {
+}: MainPaginationProps) => {
   if (totalPages <= 1) return null
 
   const pages = createPageList(currentPage, totalPages)
@@ -72,7 +70,7 @@ const MainPagination: React.FC<MainPaginationProps> = ({
   const isLast = currentPage === totalPages
 
   return (
-    <Pagination className={cn("mt-6", className)}>
+    <Pagination className={cn("mt-6 text-black", className)}>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -108,6 +106,7 @@ const MainPagination: React.FC<MainPaginationProps> = ({
                     handleChange(p)
                   }
                 }}
+                className={cn(p === currentPage && "bg-primary text-white")}
               >
                 {p}
               </PaginationLink>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MainLayout } from "@/components/layout";
 import { AiLoading, TopicCard } from "@/components/shared";
 import { useGetTopics } from "@/src/services";
@@ -16,6 +16,8 @@ interface TopicPageProps {
 
 const TopicPage = ({ page, limit, mode }: TopicPageProps) => {
     const router = useRouter();
+    const pathname = usePathname();
+
     const { data: topicsData, isLoading } = useGetTopics({ page: page ?? 1, limit: limit ?? 6 });
     const pagination = topicsData?.pagination;
 
@@ -27,17 +29,10 @@ const TopicPage = ({ page, limit, mode }: TopicPageProps) => {
     const handlePageChange = (page: number) => {
         router.push(
             mode
-                ? `/flashcard/topic?page=${page}&limit=${limitItems}&mode=${mode}`
-                : `/flashcard/topic?page=${page}&limit=${limitItems}`
+                ? `${pathname}?page=${page}&limit=${limitItems}&mode=${mode}`
+                : `${pathname}?page=${page}&limit=${limitItems}`
         );
     };
-
-    console.log({
-        pageProp: page,
-        currentPage,
-        totalPages,
-        pagination,
-    });
 
     if (isLoading) {
         return (
@@ -66,7 +61,7 @@ const TopicPage = ({ page, limit, mode }: TopicPageProps) => {
                                     key={topic.id}
                                     title={topic.name}
                                     image="/mezon-logo.png"
-                                    link={`${mode ? `/flashcard/topic/${topic.id}?mode=${mode}` : `/flashcard/topic/${topic.id}`}`}
+                                    link={`${mode ? `${pathname}/${topic.id}?mode=${mode}` : `${pathname}/${topic.id}`}`}
                                 />
                             ))}
                         </div>
@@ -75,8 +70,8 @@ const TopicPage = ({ page, limit, mode }: TopicPageProps) => {
                             totalPages={totalPages}
                             getHref={(page) =>
                                 mode
-                                    ? `/flashcard/topic?page=${page}&limit=${limitItems}&mode=${mode}`
-                                    : `/flashcard/topic?page=${page}&limit=${limitItems}`
+                                    ? `${pathname}?page=${page}&limit=${limitItems}&mode=${mode}`
+                                    : `${pathname}?page=${page}&limit=${limitItems}`
                             }
                             onPageChange={(page) => handlePageChange(page)}
                         />

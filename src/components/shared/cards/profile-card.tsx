@@ -2,6 +2,7 @@ import * as React from "react";
 import Image from "next/image";
 import { Kbd, KbdGroup, Separator } from "@/components/ui";
 import { Flame } from "lucide-react";
+import { useGetUserStreak } from "@/src/services";
 
 export interface ProfileCardProps {
     image: string;
@@ -12,6 +13,8 @@ export interface ProfileCardProps {
 }
 
 const ProfileCard = ({ image, name, badges, points, streaks }: ProfileCardProps) => {
+    const {data} = useGetUserStreak();
+
     return (
         <div className="relative flex flex-col items-center justify-center gap-3 rounded-4xl bg-amber-200 p-5 pt-14 text-black shadow-2xl">
             <div className="absolute -top-1/2 right-1/2 translate-x-1/2 transform overflow-hidden rounded-full border-4 border-white bg-amber-300">
@@ -29,7 +32,13 @@ const ProfileCard = ({ image, name, badges, points, streaks }: ProfileCardProps)
                 <div>{points} pts</div>
                 <Separator orientation="vertical" className="bg-black" />
                 <div className="flex items-center justify-center gap-1">
-                    <span>{streaks}</span> <Flame size={16} strokeWidth={1.75} />
+                    <span>{streaks}</span>{" "}
+                    <Flame
+                        size={16}
+                        strokeWidth={1.75}
+                        fill={data?.data?.todayStreak ? "currentColor" : "none"}
+                        className={data?.data?.todayStreak ? "text-red-500" : ""}
+                    />
                 </div>
             </div>
         </div>

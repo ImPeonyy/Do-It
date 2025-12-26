@@ -10,7 +10,21 @@ export const PATH = {
         LEARN: "/vocabulary/learn",
         TEST: "/vocabulary/test",
     },
-    TEST: "/test",
+    TEST: {
+        INDEX: "/test",
+        TOEIC: {
+            INDEX: "/test/toeic",
+            DETAIL: (id: string) => `/test/toeic/${id}`,
+            PRACTICE: (id: string, partId: string) => `/test/toeic/${id}/practice?part=${partId}`,
+        },
+    },
+    FLASHCARD: {
+        INDEX: "/flashcard",
+        TOPIC: {
+            INDEX: "/flashcard/topic",
+            DETAIL: (id: string) => `/flashcard/topic/${id}`,
+        },
+    },
     SETTINGS: "/settings",
     LOGOUT: "/logout",
 };

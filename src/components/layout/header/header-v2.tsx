@@ -3,17 +3,21 @@
 import { Bell, ChevronsLeft, MessageCircle, RotateCw } from "lucide-react";
 import { Button, Input } from "@/components/ui";
 import { usePathname, useRouter } from "next/navigation";
-import { PATH } from "@/src/constants";
 
 const HeaderV2 = () => {
     const router = useRouter();
     const pathname = usePathname();
-    const canGoBack = pathname !== PATH.DASHBOARD;
+
+    const segments = pathname.split("/").filter(Boolean);
+    const canGoBack = segments.length > 1;
 
     const handleBack = () => {
-        if (canGoBack) {
-            router.back();
-        }
+        if (!canGoBack) return;
+
+        segments.pop();
+        const parentPath = "/" + segments.join("/");
+
+        router.push(parentPath);
     };
 
     const handleRefresh = () => {
@@ -37,10 +41,10 @@ const HeaderV2 = () => {
                     <Input type="text" placeholder="Search..." className="h-10 flex-1 rounded-full border px-4"></Input>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button className="h-10 w-10 rounded-full border-0 bg-amber-100">
+                    <Button className="h-10 w-10 rounded-full" variant="outline">
                         <MessageCircle className="mx-auto" />
                     </Button>
-                    <Button className="h-10 w-10 rounded-full border-0 bg-amber-100">
+                    <Button className="h-10 w-10 rounded-full" variant="outline">
                         <Bell className="mx-auto" />
                     </Button>
                 </div>
