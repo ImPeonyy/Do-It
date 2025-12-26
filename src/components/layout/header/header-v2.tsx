@@ -1,37 +1,52 @@
-'use client';
+"use client";
 
-import { Bell, MessageCircle } from "lucide-react";
+import { Bell, ChevronsLeft, MessageCircle, RotateCw } from "lucide-react";
 import { Button, Input } from "@/components/ui";
+import { usePathname, useRouter } from "next/navigation";
+import { PATH } from "@/src/constants";
 
-interface HeaderV2Props {
-    Trigger: React.ReactNode;
-}
+const HeaderV2 = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+    const canGoBack = pathname !== PATH.DASHBOARD;
 
-const HeaderV2 = ({ Trigger }: HeaderV2Props) => {
+    const handleBack = () => {
+        if (canGoBack) {
+            router.back();
+        }
+    };
+
+    const handleRefresh = () => {
+        router.refresh();
+    };
     return (
         <header className="grid grid-cols-12">
-            <div className="container col-span-9 mx-auto flex h-16 items-center justify-between px-4">
-                <div >
-                    {Trigger}
+            <div className="col-span-9 flex h-16 items-center justify-between px-5">
+                <div className="flex items-center gap-5">
+                    <span
+                        className={`${canGoBack ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}
+                        onClick={handleBack}
+                    >
+                        <ChevronsLeft className="h-8 w-8" />
+                    </span>
+                    <span className="cursor-pointer" onClick={handleRefresh}>
+                        <RotateCw className="h-6 w-6" />
+                    </span>
                 </div>
-                <div className="flex items-center space-x-4">
-                    <Input
-                        type="text"
-                        placeholder="Search..."
-                        className="flex-1 w-200 h-10 rounded-full border px-4">
-                    </Input>
+                <div className="flex w-full max-w-2/3 items-center">
+                    <Input type="text" placeholder="Search..." className="h-10 flex-1 rounded-full border px-4"></Input>
                 </div>
-                <div className="flex items-center space-x-4">
-                    <Button className="bg-amber-100 border-0 rounded-full w-10 h-10">
-                        <MessageCircle className="mx-auto"/>
-                        </Button>
-                    <Button className="bg-amber-100 border-0 rounded-full w-10 h-10">
-                        <Bell className="mx-auto"/>
+                <div className="flex items-center gap-3">
+                    <Button className="h-10 w-10 rounded-full border-0 bg-amber-100">
+                        <MessageCircle className="mx-auto" />
+                    </Button>
+                    <Button className="h-10 w-10 rounded-full border-0 bg-amber-100">
+                        <Bell className="mx-auto" />
                     </Button>
                 </div>
             </div>
         </header>
-    )
+    );
 };
 
 export default HeaderV2;

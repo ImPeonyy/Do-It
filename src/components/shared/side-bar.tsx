@@ -11,8 +11,11 @@ import {
     SidebarMenuItem,
     SidebarGroupContent,
     SidebarSeparator,
+    SidebarTrigger,
+    SidebarHeader,
+    useSidebar,
 } from "@/components/ui";
-import { Home, Inbox, Calendar, Search, Settings, LogOut } from "lucide-react";
+import { Home, Inbox, Calendar, Search, Settings, LogOut, ChevronRight, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { logoutAction } from "@/src/libs/sessions/session.action";
 
@@ -60,6 +63,7 @@ const SubItems = [
 const SideBar = () => {
     const pathname = usePathname();
     const router = useRouter();
+    const { open } = useSidebar();
 
     const handleClick = (url: string) => {
         if (url === "/logout") {
@@ -71,9 +75,17 @@ const SideBar = () => {
 
     return (
         <Sidebar className="border-none text-white">
-            <SidebarContent className="sidebar-bg">
+            <SidebarHeader className="relative bg-[#262239] pt-5">
+                <SidebarGroupLabel className="flex items-center justify-center text-3xl font-bold text-white">
+                    Do It!
+                </SidebarGroupLabel>
+                <SidebarTrigger
+                    className={`absolute rounded-full transition-all duration-450 ${!open ? "bg-foreground text-background top-1/2 -right-5 -translate-y-1/2 pl-3" : "top-0 right-0 text-white"}`}
+                    icon={open ? <X className="size-6" /> : <ChevronRight className="size-6" />}
+                />
+            </SidebarHeader>
+            <SidebarContent className="sidebar-bg pt-10">
                 <SidebarGroup className="gap-10">
-                    <SidebarGroupLabel className="flex justify-center font-bold text-white text-3xl items-center">Do It!</SidebarGroupLabel>
                     <div className="flex flex-col gap-5 pl-10">
                         <SidebarGroupContent>
                             <SidebarMenu>
@@ -85,7 +97,7 @@ const SideBar = () => {
                                             className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
                                         >
                                             <SidebarMenuButton
-                                                className="h-15 w-full rounded-l-full pl-8 font-bold cursor-pointer hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
+                                                className="hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground h-15 w-full cursor-pointer rounded-l-full pl-8 font-bold data-[active=true]:font-bold"
                                                 isActive={isActive}
                                                 onClick={() => {
                                                     handleClick(item.url);
@@ -112,7 +124,7 @@ const SideBar = () => {
                                             className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
                                         >
                                             <SidebarMenuButton
-                                                className="h-15 w-full rounded-l-full pl-8 font-bold cursor-pointer hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground data-[active=true]:font-bold"
+                                                className="hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground h-15 w-full cursor-pointer rounded-l-full pl-8 font-bold data-[active=true]:font-bold"
                                                 isActive={isActive}
                                                 onClick={() => {
                                                     handleClick(item.url);

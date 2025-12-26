@@ -13,7 +13,7 @@ export interface ProfileCardProps {
 
 const ProfileCard = ({ image, name, badges, points, streaks }: ProfileCardProps) => {
     return (
-        <div className="relative flex flex-col items-center justify-center gap-3 rounded-4xl bg-amber-200 p-5 pt-14 shadow-2xl">
+        <div className="relative flex flex-col items-center justify-center gap-3 rounded-4xl bg-amber-200 p-5 pt-14 text-black shadow-2xl">
             <div className="absolute -top-1/2 right-1/2 translate-x-1/2 transform overflow-hidden rounded-full border-4 border-white bg-amber-300">
                 <Image src={image} alt="profile" width={100} height={100} />
             </div>
