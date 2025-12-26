@@ -1,13 +1,13 @@
 import axiosClient from "@/libs/clients/axios-client";
-import { ApiResponse } from "@/src/constants";
-import { LiveKitTokenResponse } from "./communication.interface";
 
-const createLiveKitRoom = async (): Promise<ApiResponse<{ roomName: string }>> => {
-    return axiosClient.post("/call/room");
+const createLiveKitRoom = async (): Promise<string> => {
+    const res = await axiosClient.post("/call/room");
+    return res.data.roomName;
 };
 
-const getLiveKitToken = async (roomName: string): Promise<ApiResponse<LiveKitTokenResponse>> => {
-    return axiosClient.post("/call/token", { roomName });
+const getLiveKitToken = async (roomName: string): Promise<string> => {
+    const res = await axiosClient.post("/call/token", { roomName });
+    return res.data.token;
 };
 
 export { createLiveKitRoom, getLiveKitToken };
