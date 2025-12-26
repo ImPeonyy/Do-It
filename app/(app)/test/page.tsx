@@ -5,9 +5,9 @@ import { ServerTestsService } from "@/src/services/server-side";
 
 const Page = async () => {
     const tests = await ServerTestsService.getTests();
-    
+
     return (
-        <MainLayout subContent = {<Leaderboard/>}>
+        <MainLayout subContent={<Leaderboard />}>
             <TestPage testsPagination={tests} />
         </MainLayout>
     );

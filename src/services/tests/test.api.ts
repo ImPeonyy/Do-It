@@ -1,18 +1,19 @@
 import axiosClient from "@/libs/clients/axios-client";
-import { ApiResponse } from "@/constants/api.type";
+import { ApiResponse, DEFAULT_STALE_TIME, PaginationResponse } from "@/src/constants";
 import { Answer, PartQuestion, Test, TestDetail, ToeicTestResult } from "./test.interface";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import testQueryKey from "./test.qkey";
 
-const getTests = async (page?: number, limit?: number): Promise<ApiResponse<Test[]>> => {
+const getTests = async (page?: number, limit?: number): Promise<PaginationResponse<Test[]>> => {
     const response = await axiosClient.get("/toeic/tests", { params: { page, limit } });
     return response.data;
 };
 
 const useGetTests = (page?: number, limit?: number) => {
     return useQuery({
-        queryKey: testQueryKey.list(),
+        queryKey: testQueryKey.list(page, limit),
         queryFn: () => getTests(page, limit),
+        staleTime: DEFAULT_STALE_TIME,
     });
 };
 

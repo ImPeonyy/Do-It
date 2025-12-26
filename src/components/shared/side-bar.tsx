@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
     Sidebar,
     SidebarContent,
@@ -15,47 +14,43 @@ import {
     SidebarHeader,
     useSidebar,
 } from "@/components/ui";
-import { Home, Inbox, Calendar, Search, Settings, LogOut, ChevronRight, X } from "lucide-react";
+import { Home, MessageCircleMore, Calendar, ScrollText, Settings, LogOut, ChevronRight, X } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { logoutAction } from "@/src/libs/sessions/session.action";
+import { PATH } from "@/src/constants";
 
 const MainItems = [
     {
         title: "Dashboard",
-        url: "/dashboard",
+        url: PATH.DASHBOARD,
         icon: Home,
     },
     {
         title: "Communication",
-        url: "/communication",
-        icon: Inbox,
-    },
-    {
-        title: "Vocabulary Learn",
-        url: "/vocabulary/learn",
-        icon: Inbox,
+        url: PATH.COMMUNICATION,
+        icon: MessageCircleMore,
     },
     {
         title: "Flash Card",
-        url: "/flashcard",
+        url: PATH.FLASHCARD.INDEX,
         icon: Calendar,
     },
     {
         title: "Test",
-        url: "/test",
-        icon: Search,
+        url: PATH.TEST.INDEX,
+        icon: ScrollText,
     },
 ];
 
 const SubItems = [
     {
         title: "Settings",
-        url: "/settings",
+        url: PATH.SETTINGS,
         icon: Settings,
     },
     {
         title: "Log Out",
-        url: "/logout",
+        url: PATH.LOGOUT,
         icon: LogOut,
     },
 ];
@@ -66,7 +61,7 @@ const SideBar = () => {
     const { open } = useSidebar();
 
     const handleClick = (url: string) => {
-        if (url === "/logout") {
+        if (url === PATH.LOGOUT) {
             logoutAction();
         } else {
             router.push(url);
@@ -97,13 +92,13 @@ const SideBar = () => {
                                             className={`sidebar-item-hover w-full ${isActive ? "sidebar-item-active" : ""}`}
                                         >
                                             <SidebarMenuButton
-                                                className="hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground h-15 w-full cursor-pointer rounded-l-full pl-8 font-bold data-[active=true]:font-bold"
+                                                className="hover:bg-background hover:text-foreground data-[active=true]:bg-background data-[active=true]:text-foreground h-15 w-full cursor-pointer items-center rounded-l-full pl-8 font-bold data-[active=true]:font-bold"
                                                 isActive={isActive}
                                                 onClick={() => {
                                                     handleClick(item.url);
                                                 }}
                                             >
-                                                <item.icon />
+                                                <item.icon className="mb-1 size-6!" />
                                                 <span>{item.title}</span>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
@@ -130,7 +125,7 @@ const SideBar = () => {
                                                     handleClick(item.url);
                                                 }}
                                             >
-                                                <item.icon />
+                                                <item.icon className="mb-1 size-6!" />
                                                 <span>{item.title}</span>
                                             </SidebarMenuButton>
                                         </SidebarMenuItem>
