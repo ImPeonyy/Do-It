@@ -1,5 +1,4 @@
 import { cn } from "@/libs/utils";
-import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,8 +23,8 @@ const HorizontalCard = ({ title, description, image, link, className }: Horizont
                 <Image src={image} alt={title} width={64} height={64} />
             </div>
             <div className="flex flex-col items-start justify-center">
-                <h1>{title}</h1>
-                <p>{description}</p>
+                <h1 className="text-lg font-bold">{title}</h1>
+                <p className="text-sm text-gray-500">{description}</p>
             </div>
         </Link>
     );

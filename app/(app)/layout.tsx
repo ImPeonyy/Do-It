@@ -1,4 +1,4 @@
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui";
+import { SidebarInset, SidebarProvider } from "@/components/ui";
 import { HeaderV2 } from "@/components/layout";
 import { SideBar } from "@/components/shared";
 import { getSession } from "@/src/libs/sessions/session.service";
@@ -15,7 +15,7 @@ const AppLayout = async ({ children }: { children: React.ReactNode }) => {
         <SidebarProvider defaultOpen={true}>
             <SideBar />
             <SidebarInset>
-                <HeaderV2 Trigger={<SidebarTrigger />} />
+                <HeaderV2 />
                 {children}
             </SidebarInset>
         </SidebarProvider>

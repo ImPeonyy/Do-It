@@ -20,7 +20,7 @@ export interface Vocabulary {
 }
 
 export interface VocabsTestAnswer {
-    id: number;
+    questionId: number;
     answer: string;
 }
 

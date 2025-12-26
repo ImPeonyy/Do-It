@@ -100,7 +100,7 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
         Object.entries(data.answers).forEach(([key, value]) => {
             if (value && value.trim().length > 0) {
                 answers.push({
-                    id: parseInt(key, 10),
+                    questionId: parseInt(key, 10),
                     answer: value.trim(),
                 });
             }

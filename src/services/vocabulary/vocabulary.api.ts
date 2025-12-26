@@ -6,7 +6,7 @@ import { ApiResponse, PaginationResponse } from "@/constants/api.type";
 import { EFlashCardMode } from "@/src/components/pages/flashcard";
 import { toast } from "sonner";
 
-const getTopics = async (params: { page: number; limit: number }): Promise<PaginationResponse<Topic>> => {
+const getTopics = async (params: { page: number; limit: number }): Promise<PaginationResponse<Topic[]>> => {
     const response = await axiosClient.get("/topics", { params });
     return response.data;
 };
@@ -56,6 +56,7 @@ const submitTestAnswers = async (
     topicId: number,
     answers: VocabsTestAnswer[]
 ): Promise<ApiResponse<TopicTestResultResponse>> => {
+    console.log(answers);
     const response = await axiosClient.post(`/topics/test/${topicId}/submit`, [...answers]);
     return response.data;
 };
