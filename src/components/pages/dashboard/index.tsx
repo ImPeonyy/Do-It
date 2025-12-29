@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { HorizontalCard, ProfileCard, TopicCard } from "@/components/shared";
+import { ProfileCard, TopicCard } from "@/components/shared";
 import { MainLayout } from "@/components/layout";
 import { useGetUserProfile, Topic, useGetRandomTopics } from "@/src/services";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui";
@@ -15,7 +15,7 @@ const DashboardPage = () => {
 
     if (!userProfile?.data) return null;
     if (!topics?.data) return null;
-    
+
     return (
         <MainLayout
             subContent={
@@ -29,17 +29,7 @@ const DashboardPage = () => {
                             streaks={userProfile.data.streakDays || 0}
                         />
                     </div>
-                    <div>
-                        {Array.from({ length: 3 }).map((_, i) => (
-                            <HorizontalCard
-                                key={i}
-                                title={`Horizontal Card ${i + 1}`}
-                                description="This is a horizontal card"
-                                image="/mezon-logo.png"
-                                link="/horizontal-card"
-                            />
-                        ))}
-                    </div>
+                    <div className="flex min-h-[400px] items-center justify-center text-2xl font-bold">Coming Soon</div>
                 </div>
             }
         >
@@ -72,8 +62,8 @@ const DashboardPage = () => {
                         </Carousel>
                     </div>
                 </div>
-                <div className="bg-accent h-100 rounded-4xl p-5 shadow-2xl">
-                    <h1>Dashboard</h1>
+                <div className="border-foreground h-100 rounded-4xl border p-5 shadow-2xl">
+                    <div className="flex min-h-[400px] items-center justify-center text-2xl font-bold">Coming Soon</div>
                 </div>
             </div>
         </MainLayout>

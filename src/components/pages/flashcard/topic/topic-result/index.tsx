@@ -91,14 +91,14 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
     return (
         <MainLayout
             subContent={
-                <aside className="sticky top-24 space-y-4">
+                <aside className="sticky top-24 space-y-4 pl-5">
                     <div className="rounded-2xl border bg-card p-4 shadow-sm">
-                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Tổng kết</p>
+                        <p className="text-xs font-medium uppercase tracking-wide text-black">Tổng kết</p>
                         <div className="mt-3 flex items-baseline gap-2">
-                            <p className="text-3xl font-bold tabular-nums">{topicTestResult.correctCount}</p>
-                            <p className="text-lg text-muted-foreground">/{topicTestResult.totalQuestions}</p>
+                            <p className="text-3xl font-bold tabular-nums text-black">{topicTestResult.correctCount}</p>
+                            <p className="text-lg text-black">/{topicTestResult.totalQuestions}</p>
                         </div>
-                        <p className="mt-1 text-xs text-muted-foreground">
+                        <p className="mt-1 text-xs text-black">
                             {accuracy}% chính xác ({topicTestResult.correctCount} câu đúng)
                         </p>
                         <Separator className="my-3" />
@@ -126,8 +126,8 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                     </div>
 
                     <div className="rounded-2xl border bg-muted/40 p-4 text-xs text-muted-foreground shadow-sm">
-                        <p className="text-sm font-medium text-foreground">Gợi ý tiếp theo</p>
-                        <ul className="mt-2 list-disc space-y-1 pl-4">
+                        <p className="text-sm font-medium text-black">Gợi ý tiếp theo</p>
+                        <ul className="mt-2 list-disc space-y-1 pl-4 text-black">
                             <li>Xem lại chi tiết các câu đã trả lời sai.</li>
                             <li>Ghi chú lại những từ vựng chưa nắm vững.</li>
                             <li>Luyện tập lại để cải thiện điểm số.</li>
@@ -174,11 +174,11 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                                     <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                         Tổng số câu
                                     </p>
-                                    <p className="mt-1 text-lg font-semibold tabular-nums">
+                                    <p className="mt-1 text-lg font-semibold tabular-nums text-black">
                                         {topicTestResult.totalQuestions}
                                     </p>
                                 </div>
-                                <Badge variant="outline" className="text-[10px] uppercase tracking-wide">
+                                <Badge variant="outline" className="text-[10px] uppercase tracking-wide text-black">
                                     Tổng
                                 </Badge>
                             </div>
@@ -214,7 +214,7 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                                     <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                         Độ chính xác
                                     </p>
-                                    <p className="mt-1 text-lg font-semibold tabular-nums">{accuracy}%</p>
+                                    <p className="mt-1 text-lg font-semibold tabular-nums text-black">{accuracy}%</p>
                                 </div>
                                 <Badge
                                     variant={getAccuracyBadgeVariant(accuracy)}
@@ -231,8 +231,8 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                 <section className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold">Chi tiết từng câu hỏi</h2>
-                            <p className="text-sm text-muted-foreground">
+                            <h2 className="text-lg text-black font-semibold">Chi tiết từng câu hỏi</h2>
+                            <p className="text-sm text-black">
                                 Xem lại từng câu hỏi để biết đáp án của bạn và đáp án đúng.
                             </p>
                         </div>
@@ -267,14 +267,14 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                                                 <div className="flex-1 space-y-2">
                                                     <div>
                                                         <div className="flex items-center gap-2">
-                                                            <h3 className="text-base font-semibold">{question.word}</h3>
+                                                            <h3 className="text-base font-semibold text-black">{question.word}</h3>
                                                             {question.pronounce && (
-                                                                <span className="text-sm text-muted-foreground">
+                                                                <span className="text-sm text-black">
                                                                     /{question.pronounce}/
                                                                 </span>
                                                             )}
                                                             {question.partOfSpeech && (
-                                                                <Badge variant="outline" className="text-[10px]">
+                                                                <Badge variant="outline" className="text-[10px] text-black">
                                                                     {question.partOfSpeech}
                                                                 </Badge>
                                                             )}
@@ -283,7 +283,7 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
 
                                                     <div className="grid gap-3 md:grid-cols-2">
                                                         <div className="space-y-1.5">
-                                                            <p className="text-xs font-medium text-muted-foreground">
+                                                            <p className="text-xs font-medium text-black">
                                                                 Đáp án của bạn:
                                                             </p>
                                                             <div
@@ -306,7 +306,7 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                                                         </div>
 
                                                         <div className="space-y-1.5">
-                                                            <p className="text-xs font-medium text-muted-foreground">
+                                                            <p className="text-xs font-medium text-black">
                                                                 Đáp án đúng:
                                                             </p>
                                                             <div className="rounded-lg border border-primary/30 bg-primary/10 p-3 text-sm text-primary">
@@ -320,10 +320,10 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
 
                                                     {question.exampleSentence && (
                                                         <div className="space-y-1.5">
-                                                            <p className="text-xs font-medium text-muted-foreground">
+                                                            <p className="text-xs font-medium text-black">
                                                                 Ví dụ:
                                                             </p>
-                                                            <p className="rounded-lg border bg-muted/40 p-3 text-sm italic">
+                                                            <p className="rounded-lg border bg-muted/40 p-3 text-sm italic text-black">
                                                                 {question.exampleSentence}
                                                             </p>
                                                         </div>
@@ -349,6 +349,7 @@ const TopicResultPage = ({ topicId }: TopicResultPageProps) => {
                             currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={handlePageChange}
+                            className=""
                         />
                     )}
                 </section>

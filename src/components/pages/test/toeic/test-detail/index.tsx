@@ -5,7 +5,7 @@ import { PageTitle } from "@/components/shared";
 import { useGetTest } from "@/services/index";
 import { MainLayout } from "@/components/layout";
 import { LIMIT_TIME_PER_TEST, TOTAL_PART_PER_TEST, TOTAL_QUESTION_PER_PART } from "@/constants/index";
-import { Kbd, KbdGroup, Button, RadioGroup, RadioGroupItem } from "@/components/ui";
+import { Kbd, KbdGroup, Button, RadioGroup, RadioGroupItem, Label } from "@/components/ui";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -54,8 +54,9 @@ const TestDetailPage = ({ testId }: { testId: string }) => {
                                                 <RadioGroupItem
                                                     id={part.partId.toString()}
                                                     value={part.partId.toString()}
+                                                    className="cursor-pointer"
                                                 />
-                                                <div key={part.partId} className="flex items-center gap-2">
+                                                <Label htmlFor={part.partId.toString()} key={part.partId} className="flex items-center gap-2 cursor-pointer">
                                                     <span>
                                                         Part {part.partNumber} (
                                                         {
@@ -66,7 +67,7 @@ const TestDetailPage = ({ testId }: { testId: string }) => {
                                                         ){" - "}
                                                         {part.partTitle}
                                                     </span>
-                                                </div>
+                                                </Label>
                                             </div>
                                         ))}
                                     </RadioGroup>

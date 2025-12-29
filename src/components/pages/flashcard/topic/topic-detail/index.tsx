@@ -20,9 +20,11 @@ import {
     TopicTestResultResponse,
     useAddFavoriteVocab,
     useCheckFavoriteVocab,
+    useGetUserStreak,
     useGetVocabulariesTopic,
     useRemoveFavoriteVocab,
     useSubmitTestAnswers,
+    useUpdateUserStreak,
     VocabsTestAnswer,
     Vocabulary,
 } from "@/src/services";
@@ -35,6 +37,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useQueryClient } from "@tanstack/react-query";
+import useBeforeUnload from "@/src/hooks/use-before-unload";
 interface TopicDetailPageProps {
     topicId: string;
     mode: EFlashCardMode;
@@ -50,6 +53,10 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
         queryClient.setQueryData(["topic-test-result", topicId], data);
         router.push(`/flashcard/topic/${topicId}/result`);
     });
+    const { data: userStreakData, refetch: refetchUserStreak } = useGetUserStreak();
+    const { mutate: updateUserStreakMutation } = useUpdateUserStreak(() => {
+        refetchUserStreak();
+    });
 
     const { mutate: addFavorite, isPending: isAdding } = useAddFavoriteVocab();
     const { mutate: removeFavorite, isPending: isRemoving } = useRemoveFavoriteVocab();
@@ -60,6 +67,7 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
     const isPracticeMode = mode === EFlashCardMode.PRACTICE;
     const isTestMode = mode === EFlashCardMode.TEST;
 
+    useBeforeUnload(isTestMode);
     const [api, setApi] = React.useState<CarouselApi>();
     const [current, setCurrent] = React.useState(0);
     const [inputValues, setInputValues] = React.useState<Record<number, string>>({});
@@ -174,16 +182,6 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
         if (!currentVocab) return;
 
         setInputValues((prev) => ({ ...prev, [currentVocab.id]: value }));
-
-        if (checkAnswer(value, currentCorrectAnswers)) {
-            setCorrectAnswers((prev) => new Set([...prev, currentVocab.id]));
-        } else {
-            setCorrectAnswers((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(currentVocab.id);
-                return newSet;
-            });
-        }
     };
 
     const handleSubmit = () => {
@@ -192,6 +190,9 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
         const userInput = inputValues[currentVocab.id] || "";
 
         if (checkAnswer(userInput, currentCorrectAnswers)) {
+            if (!userStreakData?.data?.todayStreak) {
+                updateUserStreakMutation();
+            }
             setCorrectAnswers((prev) => new Set([...prev, currentVocab.id]));
             setFlippedCards((prev) => new Set([...prev, currentVocab.id]));
         }

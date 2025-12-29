@@ -25,6 +25,8 @@ export default function CallPage() {
     const [camEnabled, setCamEnabled] = useState(true);
     const [screenSharing, setScreenSharing] = useState(false);
     const [connected, setConnected] = useState(false);
+    const [hasMic, setHasMic] = useState(true);
+    const [hasCam, setHasCam] = useState(true);
 
     const [inputRoom, setInputRoom] = useState("");
     const [messages, setMessages] = useState<ChatMsg[]>([]);
@@ -50,23 +52,64 @@ export default function CallPage() {
     }
 
     async function handleCreateRoom() {
-        const res = await createLiveKitRoom();
-        setInputRoom(res.data.roomName);
+        const roomName = await createLiveKitRoom();
+        setInputRoom(roomName);
+    }
+
+    async function createSafeLocalTracks() {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+
+        const hasMic = devices.some((d) => d.kind === "audioinput");
+        const hasCam = devices.some((d) => d.kind === "videoinput");
+
+        setHasMic(hasMic);
+        setHasCam(hasCam);
+        setMicEnabled(hasMic);
+        setCamEnabled(hasCam);
+
+        if (!hasMic && !hasCam) {
+            return [];
+        }
+
+        try {
+            const tracks = await createLocalTracks({
+                audio: hasMic,
+                video: hasCam,
+            });
+
+            return tracks;
+        } catch (e) {
+            console.warn("Create local tracks failed:", e);
+            setMicEnabled(false);
+            setCamEnabled(false);
+            return [];
+        }
     }
 
     async function joinCall() {
         if (!inputRoom.trim()) return alert("Please enter room name");
 
-        const res = await getLiveKitToken(inputRoom);
-        const { token, url } = res.data;
-
         const room = new Room({ adaptiveStream: true, dynacast: true });
         roomRef.current = room;
 
-        await room.connect(url, token);
-        setConnected(true);
+        const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
-        const tracks = await createLocalTracks({ audio: true, video: true });
+        if (!livekitUrl) {
+            throw new Error("NEXT_PUBLIC_LIVEKIT_URL is not defined");
+        }
+
+        try {
+            const token = await getLiveKitToken(inputRoom);
+            await room.connect(livekitUrl, token);
+            setConnected(true);
+        } catch (e) {
+            console.error("Connect failed:", e);
+            alert("Cannot connect to room!");
+            return;
+        }
+
+        const tracks = await createSafeLocalTracks();
+
         tracks.forEach((t) => room.localParticipant.publishTrack(t));
 
         const localVideo = tracks.find((t) => t.kind === Track.Kind.Video);
@@ -94,11 +137,20 @@ export default function CallPage() {
             const text = new TextDecoder().decode(payload);
             setMessages((prev) => [...prev, { user: participant?.name || "Guest", text, self: false }]);
         });
+
+        room.on(RoomEvent.Disconnected, (reason) => {
+            console.warn("Disconnected:", reason);
+            leaveCall();
+        });
     }
 
     function toggleMic() {
         const room = roomRef.current;
         if (!room) return;
+
+        const pub = room.localParticipant.getTrackPublication(Track.Source.Microphone);
+        if (!pub || !pub.track) return;
+
         const next = !micEnabled;
         room.localParticipant.setMicrophoneEnabled(next);
         setMicEnabled(next);
@@ -107,6 +159,10 @@ export default function CallPage() {
     function toggleCamera() {
         const room = roomRef.current;
         if (!room) return;
+
+        const pub = room.localParticipant.getTrackPublication(Track.Source.Camera);
+        if (!pub || !pub.track) return;
+
         const next = !camEnabled;
         room.localParticipant.setCameraEnabled(next);
         setCamEnabled(next);
@@ -116,37 +172,40 @@ export default function CallPage() {
         const room = roomRef.current;
         if (!room) return;
 
-        if (!screenSharing) {
-            const tracks = await createLocalScreenTracks({
-                audio: false,
-                video: { displaySurface: "monitor" },
-            });
+        try {
+            if (!screenSharing) {
+                const tracks = await createLocalScreenTracks({
+                    video: true,
+                    audio: false,
+                });
 
-            const screenTrack = tracks.find((t) => t.kind === Track.Kind.Video);
-            if (!screenTrack) return;
+                if (!tracks.length) return;
 
-            screenTrackRef.current = screenTrack;
+                const track = tracks[0];
+                screenTrackRef.current = track;
 
-            await room.localParticipant.publishTrack(screenTrack);
-            setScreenSharing(true);
+                await room.localParticipant.publishTrack(track);
+                setScreenSharing(true);
 
-            if (screenContainerRef.current) {
-                const el = screenTrack.attach();
-                el.className = "h-full w-full object-contain bg-black";
-                screenContainerRef.current.replaceChildren(el);
+                track.mediaStreamTrack.onended = () => {
+                    room.localParticipant.unpublishTrack(track);
+                    setScreenSharing(false);
+                    screenContainerRef.current?.replaceChildren();
+                };
+
+                const el = track.attach();
+                screenContainerRef.current?.replaceChildren(el);
+            } else {
+                const track = screenTrackRef.current;
+                if (!track) return;
+
+                room.localParticipant.unpublishTrack(track);
+                track.stop();
+                setScreenSharing(false);
+                screenContainerRef.current?.replaceChildren();
             }
-        } else {
-            const track = screenTrackRef.current;
-            if (!track) return;
-
-            room.localParticipant.unpublishTrack(track);
-            track.stop();
-            track.detach();
-
-            screenTrackRef.current = null;
-            setScreenSharing(false);
-
-            screenContainerRef.current?.replaceChildren();
+        } catch (err) {
+            console.warn("Screen share canceled or failed:", err);
         }
     }
 
@@ -154,7 +213,10 @@ export default function CallPage() {
         roomRef.current?.disconnect();
         roomRef.current = null;
 
-        localVideoRef.current!.srcObject = null;
+        if (localVideoRef.current) {
+            localVideoRef.current.srcObject = null;
+        }
+
         audioContainerRef.current?.replaceChildren();
 
         setConnected(false);
@@ -258,14 +320,28 @@ export default function CallPage() {
                                 <>
                                     <button
                                         onClick={toggleMic}
-                                        className={`rounded-full p-3 text-white ${micEnabled ? "bg-gray-700 hover:bg-gray-800" : "bg-red-600"}`}
+                                        disabled={!hasMic}
+                                        className={`rounded-full p-3 text-white transition ${
+                                            !hasMic
+                                                ? "cursor-not-allowed bg-gray-400 opacity-50"
+                                                : micEnabled
+                                                  ? "bg-gray-700 hover:bg-gray-800"
+                                                  : "bg-red-600 hover:bg-red-700"
+                                        } `}
                                     >
                                         {micEnabled ? <Mic /> : <MicOff />}
                                     </button>
 
                                     <button
                                         onClick={toggleCamera}
-                                        className={`rounded-full p-3 text-white ${camEnabled ? "bg-gray-700 hover:bg-gray-800" : "bg-red-600"}`}
+                                        disabled={!hasCam}
+                                        className={`rounded-full p-3 text-white transition ${
+                                            !hasCam
+                                                ? "cursor-not-allowed bg-gray-400 opacity-50"
+                                                : camEnabled
+                                                  ? "bg-gray-700 hover:bg-gray-800"
+                                                  : "bg-red-600 hover:bg-red-700"
+                                        } `}
                                     >
                                         {camEnabled ? <Video /> : <VideoOff />}
                                     </button>

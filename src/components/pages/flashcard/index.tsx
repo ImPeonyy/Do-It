@@ -42,7 +42,7 @@ const FlashCardPage = () => {
                 {FLASHCARD_MODE_OPTIONS.map((option, index) => (
                     <div
                         key={option.label}
-                        className="bg-background flex flex-col items-center justify-between gap-4 rounded-2xl p-8 shadow-lg"
+                        className="bg-white/10 flex flex-col items-center justify-between gap-4 rounded-2xl p-8 shadow-lg"
                     >
                         <div
                             className={cn(
