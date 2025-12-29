@@ -18,7 +18,10 @@ import {
 } from "@/components/ui";
 import {
     TopicTestResultResponse,
+    useAddFavoriteVocab,
+    useCheckFavoriteVocab,
     useGetVocabulariesTopic,
+    useRemoveFavoriteVocab,
     useSubmitTestAnswers,
     VocabsTestAnswer,
     Vocabulary,
@@ -41,11 +44,15 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
     const router = useRouter();
     const topicIdNumber = parseInt(topicId, 10);
     const queryClient = useQueryClient();
+
     const { data: topicDetailData, isLoading: isLoadingVocabularies } = useGetVocabulariesTopic(topicIdNumber, mode);
     const { mutate: submitTestAnswersMutation } = useSubmitTestAnswers((data: TopicTestResultResponse) => {
         queryClient.setQueryData(["topic-test-result", topicId], data);
         router.push(`/flashcard/topic/${topicId}/result`);
     });
+
+    const { mutate: addFavorite, isPending: isAdding } = useAddFavoriteVocab();
+    const { mutate: removeFavorite, isPending: isRemoving } = useRemoveFavoriteVocab();
 
     const currentTopic = topicDetailData?.data;
     const vocabularies = React.useMemo(() => topicDetailData?.data?.vocabs || [], [topicDetailData?.data?.vocabs]);
@@ -141,6 +148,27 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
     const currentInputValue = currentVocab ? inputValues[currentVocab.id] || "" : "";
     const currentIsCorrect = currentVocab ? correctAnswers.has(currentVocab.id) : false;
     const currentIsFlipped = currentVocab ? flippedCards.has(currentVocab.id) : false;
+
+    const currentVocabId = currentVocab?.id;
+    const { data: isFavorite, isLoading: isCheckingFavorite } = useCheckFavoriteVocab(currentVocabId);
+
+    const handleToggleFavorite = () => {
+        if (!currentVocabId) return;
+
+        if (isFavorite) {
+            removeFavorite(currentVocabId, {
+                onSuccess: () => {
+                    queryClient.setQueryData(["favorite-vocab", currentVocabId], false);
+                },
+            });
+        } else {
+            addFavorite(currentVocabId, {
+                onSuccess: () => {
+                    queryClient.setQueryData(["favorite-vocab", currentVocabId], true);
+                },
+            });
+        }
+    };
 
     const handleInputChange = (value: string) => {
         if (!currentVocab) return;
@@ -347,8 +375,18 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
                                 </div>
                             </div>
                             <div className="mt-4 flex flex-col items-center gap-2">
-                                <Button type="button" variant="outline" size="sm">
-                                    <HeartIcon className="h-4 w-4" />
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={isCheckingFavorite || isAdding || isRemoving}
+                                    onClick={handleToggleFavorite}
+                                >
+                                    <HeartIcon
+                                        className={cn(
+                                            "h-4 w-4 transition-all",
+                                            isFavorite ? "scale-110 fill-red-500 text-red-500" : "text-muted-foreground"
+                                        )}
+                                    />
                                 </Button>
                             </div>
                             <div className="mt-4 flex flex-col items-center gap-2">
@@ -443,8 +481,18 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
                         </div>
                     </div>
                     <div className="mt-4 flex flex-col items-center gap-2">
-                        <Button variant="outline" size="sm">
-                            <HeartIcon className="h-4 w-4" />
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={isCheckingFavorite || isAdding || isRemoving}
+                            onClick={handleToggleFavorite}
+                        >
+                            <HeartIcon
+                                className={cn(
+                                    "h-4 w-4 transition-all",
+                                    isFavorite ? "scale-110 fill-red-500 text-red-500" : "text-muted-foreground"
+                                )}
+                            />
                         </Button>
                     </div>
 
