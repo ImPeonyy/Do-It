@@ -36,6 +36,12 @@ async function proxy(req: Request, { params }: { params: Promise<{ path: string[
     });
     const resBody = await beRes.text();
 
+    const status = beRes.status;
+
+    if (status === 204) {
+        return new NextResponse(null, { status });
+    }
+
     return new NextResponse(resBody, {
         status: beRes.status,
         headers: {

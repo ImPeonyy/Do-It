@@ -77,4 +77,56 @@ const useSubmitTestAnswers = (onSuccess: (data: TopicTestResultResponse) => void
     });
 };
 
-export { useGetTopics, useGetVocabulariesTopic, useGetRandomTopics, useSubmitTestAnswers };
+
+const checkFavoriteVocab = async (vocabId: number): Promise<boolean> => {
+    const response = await axiosClient.get<boolean>(`/fav/vocabs/${vocabId}`);
+    return response.data;
+};
+
+const useCheckFavoriteVocab = (vocabId: number) => {
+    return useQuery({
+        queryKey: ["favorite-vocab", vocabId],
+        queryFn: () => checkFavoriteVocab(vocabId!),
+        enabled: !!vocabId,
+    });
+};
+
+const addFavoriteVocab = async (vocabId: number): Promise<void> => {
+    await axiosClient.post(`/fav/vocabs/${vocabId}`);
+};
+
+const useAddFavoriteVocab = () => {
+    return useMutation({
+        mutationFn: (vocabId: number) => addFavoriteVocab(vocabId),
+        onSuccess: () => {
+            toast.success("Added to favorites ❤️");
+        },
+    });
+};
+
+const removeFavoriteVocab = async (vocabId: number): Promise<void> => {
+    await axiosClient.delete(`/fav/vocabs/${vocabId}`);
+};
+
+const useRemoveFavoriteVocab = () => {
+    return useMutation({
+        mutationFn: (vocabId: number) => removeFavoriteVocab(vocabId),
+        onSuccess: () => {
+            toast.success("Removed from favorites");
+        },
+    });
+};
+
+
+export { 
+    useGetTopics, 
+    useGetVocabulariesTopic, 
+    useGetRandomTopics, 
+    useSubmitTestAnswers,
+    checkFavoriteVocab,
+    useCheckFavoriteVocab,
+    addFavoriteVocab,
+    useAddFavoriteVocab,
+    removeFavoriteVocab,
+    useRemoveFavoriteVocab
+};
