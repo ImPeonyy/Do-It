@@ -22,3 +22,7 @@ export * from "./vocabulary/vocabulary.interface";
 export * from "./client-side/user-stats/user-stats.api";
 export { default as userStatsQueryKey } from "./client-side/user-stats/user-stats.qkey";
 export * from "./client-side/user-stats/user-stats.interface";
+
+export * from "./topics/topic.api";
+export { default as topicQueryKey } from "./topics/topic.qkey";
+export * from "./topics/topic.interface";

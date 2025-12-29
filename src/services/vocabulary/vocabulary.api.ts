@@ -1,82 +1,45 @@
 import axiosClient from "@/libs/clients/axios-client";
-import vocabularyQueryKey from "./vocabulary.qkey";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Topic, TopicDetail, TopicTestResultResponse, VocabsTestAnswer } from "./vocabulary.interface";
-import { ApiResponse, PaginationResponse } from "@/constants/api.type";
-import { EFlashCardMode } from "@/src/components/pages/flashcard";
+import { ApiResponse } from "@/constants/api.type";
 import { toast } from "sonner";
+import { CreateVocabularyRequest, Vocabulary, VocabularyForm } from "./vocabulary.interface";
 
-const getTopics = async (params: { page: number; limit: number }): Promise<PaginationResponse<Topic[]>> => {
-    const response = await axiosClient.get("/topics", { params });
+const createVocabulary = async (data: CreateVocabularyRequest): Promise<ApiResponse<Vocabulary>> => {
+    const response = await axiosClient.post(`/vocabulary/flashcard`, data);
     return response.data;
 };
 
-const useGetTopics = (params: { page: number; limit: number }) => {
-    return useQuery({
-        queryKey: vocabularyQueryKey.topics(params.page, params.limit),
-        queryFn: () => getTopics(params),
-    });
-};
-
-const getVocabulariesTopic = async (topicId: number): Promise<ApiResponse<TopicDetail>> => {
-    const response = await axiosClient.get(`/topics/${topicId}`);
-    return response.data;
-};
-
-const getTestVocabulariesTopic = async (topicId: number): Promise<ApiResponse<TopicDetail>> => {
-    const response = await axiosClient.get(`/topics/test/${topicId}`);
-    return response.data;
-};
-
-const useGetVocabulariesTopic = (topicId: number, type: EFlashCardMode) => {
-    return useQuery({
-        queryKey: vocabularyQueryKey.vocabularies(topicId, type),
-        queryFn: () => {
-            if (type === EFlashCardMode.TEST) {
-                return getTestVocabulariesTopic(topicId);
-            }
-            return getVocabulariesTopic(topicId);
-        },
-    });
-};
-
-const getRandomTopics = async (): Promise<ApiResponse<Topic[]>> => {
-    const response = await axiosClient.get("/topics/random");
-    return response.data;
-};
-
-const useGetRandomTopics = () => {
-    return useQuery({
-        queryKey: vocabularyQueryKey.randomTopics(),
-        queryFn: () => getRandomTopics(),
-    });
-};
-
-const submitTestAnswers = async (
-    topicId: number,
-    answers: VocabsTestAnswer[]
-): Promise<ApiResponse<TopicTestResultResponse>> => {
-    console.log(answers);
-    const response = await axiosClient.post(`/topics/test/${topicId}/submit`, [...answers]);
-    return response.data;
-};
-
-const useSubmitTestAnswers = (onSuccess: (data: TopicTestResultResponse) => void) => {
+const useCreateVocabulary = (onSuccess?: (data: Vocabulary) => void) => {
     return useMutation({
-        mutationFn: ({
-            topicId,
-            answers,
-        }: {
-            topicId: number;
-            answers: VocabsTestAnswer[];
-        }): Promise<TopicTestResultResponse> => submitTestAnswers(topicId, answers).then((res) => res.data),
-        onSuccess: (data: TopicTestResultResponse) => {
-            toast.success("Submit answers success");
-            onSuccess(data);
+        mutationFn: (data: CreateVocabularyRequest) => createVocabulary(data).then((res) => res.data),
+        onSuccess: (data: Vocabulary) => {
+            toast.success("Create vocabulary success");
+            onSuccess?.(data);
+        },
+        onError: () => {
+            toast.error("Create vocabulary failed");
         },
     });
 };
 
+const updateVocabulary = async (vocabId: number, data: VocabularyForm): Promise<ApiResponse<Vocabulary>> => {
+    const response = await axiosClient.put(`/vocabulary/flashcard/${vocabId}`, data);
+    return response.data;
+};
+
+const useUpdateVocabulary = (onSuccess?: (data: Vocabulary) => void) => {
+    return useMutation({
+        mutationFn: ({ vocabId, data }: { vocabId: number; data: VocabularyForm }) =>
+            updateVocabulary(vocabId, data).then((res) => res.data),
+        onSuccess: (data: Vocabulary) => {
+            toast.success("Update vocabulary success");
+            onSuccess?.(data);
+        },
+        onError: () => {
+            toast.error("Update vocabulary failed");
+        },
+    });
+};
 
 const checkFavoriteVocab = async (vocabId: number): Promise<boolean> => {
     const response = await axiosClient.get<boolean>(`/fav/vocabs/${vocabId}`);
@@ -104,6 +67,28 @@ const useAddFavoriteVocab = () => {
     });
 };
 
+const deleteVocabulary = async (vocabIds: number[]): Promise<ApiResponse<number[]>> => {
+    const response = await axiosClient.delete(`/vocabulary/flashcard`, {
+        data: {
+            vocabIds: vocabIds,
+        },
+    });
+    return response.data;
+};
+
+const useDeleteVocabulary = (onSuccess?: (vocabIds: number[]) => void) => {
+    return useMutation({
+        mutationFn: (vocabIds: number[]) => deleteVocabulary(vocabIds).then((res) => res.data),
+        onSuccess: (vocabIds: number[]) => {
+            toast.success("Delete vocabulary success");
+            onSuccess?.(vocabIds);
+        },
+        onError: () => {
+            toast.error("Delete vocabulary failed");
+        },
+    });
+};
+
 const removeFavoriteVocab = async (vocabId: number): Promise<void> => {
     await axiosClient.delete(`/fav/vocabs/${vocabId}`);
 };
@@ -117,16 +102,15 @@ const useRemoveFavoriteVocab = () => {
     });
 };
 
-
-export { 
-    useGetTopics, 
-    useGetVocabulariesTopic, 
-    useGetRandomTopics, 
-    useSubmitTestAnswers,
+export {
+    useCreateVocabulary,
+    useUpdateVocabulary,
+    useDeleteVocabulary,
     checkFavoriteVocab,
     useCheckFavoriteVocab,
     addFavoriteVocab,
     useAddFavoriteVocab,
     removeFavoriteVocab,
-    useRemoveFavoriteVocab
+    useRemoveFavoriteVocab,
 };
+export {};

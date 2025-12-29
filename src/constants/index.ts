@@ -5,3 +5,4 @@ export * from "./toeic.constant";
 export * from "./routes.constant";
 export * from "./chat-msg.type";
 export * from "./tanstack.constant";
+export * from "./vocabulary.constant";

@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { ProfileCard, TopicCard } from "@/components/shared";
+import { HorizontalCard, ProfileCard, TopicCard } from "@/components/shared";
 import { MainLayout } from "@/components/layout";
 import { useGetUserProfile, Topic, useGetRandomTopics } from "@/src/services";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PATH } from "@/src/constants";
 
 const DashboardPage = () => {
     const [isActive, setIsActive] = React.useState(false);
@@ -29,7 +30,14 @@ const DashboardPage = () => {
                             streaks={userProfile.data.streakDays || 0}
                         />
                     </div>
-                    <div className="flex min-h-[400px] items-center justify-center text-2xl font-bold">Coming Soon</div>
+                    <div className="flex min-h-[400px] items-start justify-center text-2xl font-bold">
+                        <HorizontalCard
+                            title="Your Flash Cards"
+                            description="View your flash cards and manage them"
+                            image="/mezon-logo.png"
+                            link={PATH.FLASHCARD.MANAGEMENT}
+                        />
+                    </div>
                 </div>
             }
         >
