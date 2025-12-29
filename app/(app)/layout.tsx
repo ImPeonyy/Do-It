@@ -3,6 +3,7 @@ import { HeaderV2 } from "@/components/layout";
 import { SideBar } from "@/components/shared";
 import { getSession } from "@/src/libs/sessions/session.service";
 import { redirect } from "next/navigation";
+import { FeedbackButton } from "@/components/shared/index";
 
 const AppLayout = async ({ children }: { children: React.ReactNode }) => {
     const session = await getSession();
@@ -17,6 +18,7 @@ const AppLayout = async ({ children }: { children: React.ReactNode }) => {
             <SidebarInset>
                 <HeaderV2 />
                 {children}
+                <FeedbackButton />
             </SidebarInset>
         </SidebarProvider>
     );
