@@ -74,31 +74,31 @@ const ResultPage = ({ testId }: ResultPageProps) => {
     return (
         <MainLayout
             subContent={
-                <aside className="sticky top-24 space-y-4">
+                <aside className="sticky top-24 space-y-4 pl-5">
                     <div className="rounded-2xl border bg-card p-4 shadow-sm">
-                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Tổng kết</p>
-                        <p className="mt-3 text-3xl font-bold tabular-nums">{result.score.totalScore}</p>
-                        <p className="mt-1 text-xs text-muted-foreground">
+                        <p className="text-xs font-medium uppercase tracking-wide text-black">Tổng kết</p>
+                        <p className="mt-3 text-3xl font-bold tabular-nums text-black">{result.score.totalScore}</p>
+                        <p className="mt-1 text-xs text-black">
                             {totalCorrect}/{totalQuestions} câu đúng ({accuracy}% chính xác)
                         </p>
                         <Separator className="my-3" />
-                        <div className="space-y-1.5 text-xs text-muted-foreground">
+                        <div className="space-y-1.5 text-xs text-black">
                             <p>
                                 Listening:{" "}
-                                <span className="font-medium text-foreground">
+                                <span className="font-medium text-black">
                                     {result.score.listeningScore}/{MAX_SECTION_SCORE}
                                 </span>
                             </p>
                             <p>
                                 Reading:{" "}
-                                <span className="font-medium text-foreground">
+                                <span className="font-medium text-black">
                                     {result.score.readingScore}/{MAX_SECTION_SCORE}
                                 </span>
                             </p>
                         </div>
                     </div>
 
-                    <div className="rounded-2xl border bg-muted/40 p-4 text-xs text-muted-foreground shadow-sm">
+                    <div className="rounded-2xl border bg-muted/40 p-4 text-xs text-black shadow-sm">
                         <p className="text-sm font-medium text-foreground">Gợi ý tiếp theo</p>
                         <ul className="mt-2 list-disc space-y-1 pl-4">
                             <li>Xem lại chi tiết các câu sai ở từng part.</li>
@@ -137,16 +137,16 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                         <div className="rounded-xl border bg-card/80 p-4">
                             <div className="flex items-center justify-between gap-2">
                                 <div>
-                                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    <p className="text-xs font-medium uppercase tracking-wide text-black">
                                         Listening
                                     </p>
-                                    <p className="mt-1 text-lg font-semibold tabular-nums">
+                                    <p className="mt-1 text-lg font-semibold tabular-nums text-black">
                                         {result.score.listeningScore}/{MAX_SECTION_SCORE}
                                     </p>
                                 </div>
                                 <Badge
                                     variant={getAccuracyBadgeVariant(listeningPercent)}
-                                    className="text-[10px] uppercase tracking-wide"
+                                    className="text-[10px] uppercase tracking-wide text-black"
                                 >
                                     {listeningPercent}%
                                 </Badge>
@@ -162,16 +162,16 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                         <div className="rounded-xl border bg-card/80 p-4">
                             <div className="flex items-center justify-between gap-2">
                                 <div>
-                                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    <p className="text-xs font-medium uppercase tracking-wide text-black">
                                         Reading
                                     </p>
-                                    <p className="mt-1 text-lg font-semibold tabular-nums">
+                                    <p className="mt-1 text-lg font-semibold tabular-nums text-black">
                                         {result.score.readingScore}/{MAX_SECTION_SCORE}
                                     </p>
                                 </div>
                                 <Badge
                                     variant={getAccuracyBadgeVariant(readingPercent)}
-                                    className="text-[10px] uppercase tracking-wide"
+                                    className="text-[10px] uppercase tracking-wide text-black"
                                 >
                                     {readingPercent}%
                                 </Badge>
@@ -187,10 +187,10 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                         <div className="rounded-xl border bg-card/80 p-4">
                             <div className="flex items-center justify-between gap-2">
                                 <div>
-                                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                    <p className="text-xs font-medium uppercase tracking-wide text-black">
                                         Độ chính xác tổng
                                     </p>
-                                    <p className="mt-1 text-lg font-semibold tabular-nums">{accuracy}%</p>
+                                    <p className="mt-1 text-lg font-semibold tabular-nums text-black">{accuracy}%</p>
                                 </div>
                                 <Badge
                                     variant={getAccuracyBadgeVariant(accuracy)}
@@ -199,7 +199,7 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                                     {totalCorrect}/{totalQuestions} câu đúng
                                 </Badge>
                             </div>
-                            <p className="mt-3 text-xs text-muted-foreground">{getAccuracyLabel(accuracy)}</p>
+                            <p className="mt-3 text-xs text-black">{getAccuracyLabel(accuracy)}</p>
                         </div>
                     </div>
                 </section>
@@ -207,8 +207,8 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                 <section className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold">Tổng quan theo từng Part</h2>
-                            <p className="text-sm text-muted-foreground">
+                            <h2 className="text-lg text-black font-semibold">Tổng quan theo từng Part</h2>
+                            <p className="text-sm text-black">
                                 Mỗi thẻ bên dưới thể hiện số câu đúng, tổng số câu và tỉ lệ chính xác của từng part.
                             </p>
                         </div>
@@ -224,7 +224,7 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                                 >
                                     <div className="flex items-center justify-between gap-2">
                                         <div>
-                                            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                            <p className="text-xs font-medium uppercase tracking-wide text-white">
                                                 Part {part.partNumber}
                                             </p>
                                             <p className="mt-1 text-base font-semibold">
@@ -251,7 +251,7 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                                             style={{ width: `${partAccuracy}%` }}
                                         />
                                     </div>
-                                    <p className="mt-2 text-xs text-muted-foreground">{getAccuracyLabel(partAccuracy)}</p>
+                                    <p className="mt-2 text-xs text-white">{getAccuracyLabel(partAccuracy)}</p>
                                 </div>
                             );
                         })}
@@ -261,8 +261,8 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                 <section className="space-y-4 rounded-2xl border bg-card p-6 shadow-sm">
                     <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold">Chi tiết từng câu hỏi</h2>
-                            <p className="text-sm text-muted-foreground">
+                            <h2 className="text-lg text-black font-semibold">Chi tiết từng câu hỏi</h2>
+                            <p className="text-sm text-black">
                                 Chọn từng part để xem câu nào làm đúng, câu nào làm sai và đáp án chính xác tương ứng.
                             </p>
                         </div>
@@ -282,8 +282,8 @@ const ResultPage = ({ testId }: ResultPageProps) => {
                                 <TabsContent key={part.partNumber} value={String(part.partNumber)} className="mt-4">
                                     <div className="mb-4 flex items-center justify-between rounded-xl border bg-muted/40 px-4 py-3 text-sm">
                                         <div>
-                                            <p className="font-medium">Part {part.partNumber}</p>
-                                            <p className="text-xs text-muted-foreground">
+                                            <p className="font-medium text-black">Part {part.partNumber}</p>
+                                            <p className="text-xs text-black">
                                                 Bạn trả lời đúng {part.correct}/{part.total} câu ({partAccuracy}%).
                                             </p>
                                         </div>

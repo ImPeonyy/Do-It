@@ -135,7 +135,7 @@ const FlashCard = ({
             onMouseLeave={flipOnHover ? () => setFlipped(false) : undefined}
         >
             <div
-                className={"relative h-full w-full rounded-2xl"}
+                className={"relative h-full w-full rounded-2xl text-black"}
                 role="button"
                 tabIndex={0}
                 onClick={toggleFlip}

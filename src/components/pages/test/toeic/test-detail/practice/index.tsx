@@ -10,6 +10,7 @@ import QuestionForm from "@/components/shared/question-form";
 import { useScrollSpy } from "@/hooks/index";
 import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
+import useBeforeUnload from "@/src/hooks/use-before-unload";
 
 interface PracticePageProps {
     testId: string;
@@ -24,6 +25,7 @@ const PracticePage = ({ testId, part }: PracticePageProps) => {
         defaultValues: {},
         shouldUnregister: false,
     });
+    useBeforeUnload(true);
 
     const questionIds = React.useMemo(
         () => partQuestions?.data.flatMap((p) => p.questions.map((q) => String(q.id))) ?? [],
