@@ -9,7 +9,7 @@ const AppLayout = async ({ children }: { children: React.ReactNode }) => {
     const session = await getSession();
 
     if (!session.accessToken) {
-        redirect("/login");
+        redirect("/");
     }
 
     return (

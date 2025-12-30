@@ -1,8 +1,12 @@
-import LoginPage from "@/components/pages/login";
+import { redirectToOauthAction } from "@/src/libs/sessions/session.action";
+import { AiLoading } from "@/components/shared";
 
-const Page = () => {
+const Page = async () => {
+    await redirectToOauthAction();
     return (
-        <LoginPage />
+        <div className="flex h-screen items-center justify-center">
+            <AiLoading content="Redirecting to Mezon..." />;
+        </div>
     );
 };
 
