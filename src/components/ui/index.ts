@@ -78,6 +78,16 @@ export {
 } from "./alert-dialog";
 export { Toaster } from "./sonner";
 export {
+    Sheet,
+    SheetTrigger,
+    SheetClose,
+    SheetContent,
+    SheetHeader,
+    SheetFooter,
+    SheetTitle,
+    SheetDescription,
+} from "./sheet";
+export {
     Pagination,
     PaginationContent,
     PaginationEllipsis,

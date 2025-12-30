@@ -21,12 +21,12 @@ import {
     useAddFavoriteVocab,
     useCheckFavoriteVocab,
     useGetUserStreak,
-    useGetVocabulariesTopic,
-    useRemoveFavoriteVocab,
+    useGetTopicDetail,
     useSubmitTestAnswers,
     useUpdateUserStreak,
     VocabsTestAnswer,
     Vocabulary,
+    useRemoveFavoriteVocab,
 } from "@/src/services";
 import { AiLoading, PageTitle } from "@/components/shared";
 import { EFlashCardMode, FLASHCARD_MODE_OPTIONS } from "../../index";
@@ -47,8 +47,7 @@ const TopicDetailPage = ({ topicId, mode }: TopicDetailPageProps) => {
     const router = useRouter();
     const topicIdNumber = parseInt(topicId, 10);
     const queryClient = useQueryClient();
-
-    const { data: topicDetailData, isLoading: isLoadingVocabularies } = useGetVocabulariesTopic(topicIdNumber, mode);
+    const { data: topicDetailData, isLoading: isLoadingVocabularies } = useGetTopicDetail(topicIdNumber, mode);
     const { mutate: submitTestAnswersMutation } = useSubmitTestAnswers((data: TopicTestResultResponse) => {
         queryClient.setQueryData(["topic-test-result", topicId], data);
         router.push(`/flashcard/topic/${topicId}/result`);

@@ -20,6 +20,7 @@ export const PATH = {
     },
     FLASHCARD: {
         INDEX: "/flashcard",
+        MANAGEMENT: "/flashcard/management",
         TOPIC: {
             INDEX: "/flashcard/topic",
             DETAIL: (id: string) => `/flashcard/topic/${id}`,
