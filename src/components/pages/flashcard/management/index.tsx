@@ -32,7 +32,6 @@ import {
     Vocabulary,
     TopicForm,
     VocabularyForm,
-    useGetTopicDetail,
     useGetFlashcardsByTopicId,
 } from "@/src/services";
 import { ApiResponse, PART_OF_SPEECH_OPTIONS } from "@/src/constants";
@@ -40,7 +39,6 @@ import { ConfirmAlert, PageTitle } from "@/src/components/shared";
 import { Controller, useForm } from "react-hook-form";
 import { topicValidation, vocabularyValidation } from "@/libs/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EFlashCardMode } from "..";
 
 interface FlashCardManagementPageProps {
     initialTopics: ApiResponse<Topic[]>;
@@ -67,14 +65,11 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
         if (!selectedTopic) return;
         setVocabularies(vocabularies.map((v) => (v.id === data.id ? data : v)));
     });
-    const { data: flashcardsData, refetch: refetchFlashcards } = useGetFlashcardsByTopicId(
-        selectedTopic?.id ?? 0,
-    );
+    const { data: flashcardsData, refetch: refetchFlashcards } = useGetFlashcardsByTopicId(selectedTopic?.id ?? 0);
 
     useEffect(() => {
         if (selectedTopic) {
             refetchFlashcards();
-            console.log(flashcardsData);
             setVocabularies(flashcardsData?.data || []);
         }
     }, [selectedTopic, flashcardsData?.data]);
@@ -415,7 +410,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             <SheetDescription>Create and manage your topics and flashcards</SheetDescription>
                         </SheetHeader>
 
-                        <div className="space-y-4 py-6 px-5">
+                        <div className="space-y-4 px-5 py-6">
                             <div>
                                 <Label htmlFor="topic-name" required>
                                     Topic name
@@ -488,7 +483,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             <SheetDescription>Create and manage your flashcards</SheetDescription>
                         </SheetHeader>
 
-                        <div className="space-y-4 py-6 px-5">
+                        <div className="space-y-4 px-5 py-6">
                             <div>
                                 <Label htmlFor="vocab-word" required>
                                     Word

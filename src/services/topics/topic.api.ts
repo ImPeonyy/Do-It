@@ -30,11 +30,7 @@ const getTestTopicDetail = async (topicId: number): Promise<ApiResponse<TopicDet
     return response.data;
 };
 
-const useGetTopicDetail = (
-    topicId: number,
-    type: EFlashCardMode,
-    options?: Omit<UseQueryOptions<ApiResponse<TopicDetail>>, "queryKey" | "queryFn">
-) => {
+const useGetTopicDetail = (topicId: number, type: EFlashCardMode) => {
     return useQuery({
         queryKey: topicQueryKey.topicDetail(topicId, type),
         queryFn: () => {
@@ -44,7 +40,6 @@ const useGetTopicDetail = (
             return getTopicDetail(topicId);
         },
         staleTime: MEDIUM_STALE_TIME,
-        enabled: options?.enabled ?? false,
     });
 };
 

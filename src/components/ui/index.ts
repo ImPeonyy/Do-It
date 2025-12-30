@@ -97,3 +97,4 @@ export {
     PaginationPrevious,
 } from "./pagination";
 export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "./card";
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./tooltip";

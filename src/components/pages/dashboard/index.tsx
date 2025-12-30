@@ -14,9 +14,6 @@ const DashboardPage = () => {
     const { data: userProfile } = useGetUserProfile();
     const { data: topics } = useGetRandomTopics();
 
-    if (!userProfile?.data) return null;
-    if (!topics?.data) return null;
-
     return (
         <MainLayout
             subContent={
@@ -24,10 +21,10 @@ const DashboardPage = () => {
                     <div>
                         <ProfileCard
                             image="/mezon-logo.png"
-                            name={userProfile.data.username}
-                            badges={userProfile.data.badges}
-                            points={userProfile.data.points}
-                            streaks={userProfile.data.streakDays || 0}
+                            name={userProfile?.data?.username || "Guest"}
+                            badges={userProfile?.data?.badges || []}
+                            points={userProfile?.data?.points || 0}
+                            streaks={userProfile?.data?.streakDays || 0}
                         />
                     </div>
                     <div className="flex min-h-[400px] items-start justify-center text-2xl font-bold">
@@ -55,7 +52,7 @@ const DashboardPage = () => {
                     <div className="flex gap-5">
                         <Carousel className="w-full">
                             <CarouselContent className="w-full p-5">
-                                {topics.data.slice(0, 5).map((topic: Topic, i: number) => (
+                                {topics?.data?.slice(0, 5).map((topic: Topic, i: number) => (
                                     <CarouselItem key={i} className="basis-1/3">
                                         <TopicCard
                                             title={topic.name}
