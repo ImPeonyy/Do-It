@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Button,
     Input,
@@ -32,12 +32,15 @@ import {
     Vocabulary,
     TopicForm,
     VocabularyForm,
+    useGetTopicDetail,
+    useGetFlashcardsByTopicId,
 } from "@/src/services";
 import { ApiResponse, PART_OF_SPEECH_OPTIONS } from "@/src/constants";
 import { ConfirmAlert, PageTitle } from "@/src/components/shared";
 import { Controller, useForm } from "react-hook-form";
 import { topicValidation, vocabularyValidation } from "@/libs/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EFlashCardMode } from "..";
 
 interface FlashCardManagementPageProps {
     initialTopics: ApiResponse<Topic[]>;
@@ -54,22 +57,27 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
         setTopics(topics.map((t) => (t.id === data.id ? data : t)));
     });
 
-    const [vocabularies, setVocabularies] = useState<Record<number, Vocabulary[]>>({});
+    const [vocabularies, setVocabularies] = useState<Vocabulary[]>([]);
     const [searchVocab, setSearchVocab] = useState("");
     const { mutate: createVocab } = useCreateVocabulary((data: Vocabulary) => {
         if (!selectedTopic) return;
-        setVocabularies({
-            ...vocabularies,
-            [selectedTopic.id]: [...(vocabularies[selectedTopic.id] || []), data],
-        });
+        setVocabularies([...vocabularies, data]);
     });
     const { mutate: updateVocab } = useUpdateVocabulary((data: Vocabulary) => {
         if (!selectedTopic) return;
-        setVocabularies({
-            ...vocabularies,
-            [selectedTopic.id]: vocabularies[selectedTopic.id].map((v) => (v.id === data.id ? data : v)),
-        });
+        setVocabularies(vocabularies.map((v) => (v.id === data.id ? data : v)));
     });
+    const { data: flashcardsData, refetch: refetchFlashcards } = useGetFlashcardsByTopicId(
+        selectedTopic?.id ?? 0,
+    );
+
+    useEffect(() => {
+        if (selectedTopic) {
+            refetchFlashcards();
+            console.log(flashcardsData);
+            setVocabularies(flashcardsData?.data || []);
+        }
+    }, [selectedTopic, flashcardsData?.data]);
 
     const [isTopicSheetOpen, setIsTopicSheetOpen] = useState(false);
     const [editingTopic, setEditingTopic] = useState<Topic | null>(null);
@@ -186,11 +194,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
 
     const { mutate: deleteVocab } = useDeleteVocabulary((vocabIds: number[]) => {
         if (!selectedTopic) return;
-        const topicVocabs = vocabularies[selectedTopic.id] || [];
-        setVocabularies({
-            ...vocabularies,
-            [selectedTopic.id]: topicVocabs.filter((v) => !vocabIds.includes(Number(v.id))),
-        });
+        setVocabularies(vocabularies.filter((v) => !vocabIds.includes(Number(v.id))));
         setDeleteVocabIds([]);
     });
 
@@ -200,12 +204,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
 
     const filteredTopics =
         topics.length > 0 ? topics.filter((topic) => topic.name.toLowerCase().includes(searchTopic.toLowerCase())) : [];
-    const filteredVocabs =
-        selectedTopic && selectedTopic.id in vocabularies
-            ? vocabularies[selectedTopic.id].filter((vocab) =>
-                  vocab.word.toLowerCase().includes(searchVocab.toLowerCase())
-              )
-            : [];
+    const filteredVocabs = vocabularies.filter((v) => v.word.toLowerCase().includes(searchVocab.toLowerCase()));
 
     return (
         <div className="container mx-auto max-w-7xl px-4 py-8">
@@ -256,9 +255,6 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                                             <p className="text-muted-foreground truncate text-sm">
                                                 {topic.description}
                                             </p>
-                                            <Badge variant="secondary" className="mt-1">
-                                                {vocabularies[topic.id]?.length || 0} từ
-                                            </Badge>
                                         </div>
                                         <div className="flex gap-1">
                                             <Button
@@ -419,7 +415,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             <SheetDescription>Create and manage your topics and flashcards</SheetDescription>
                         </SheetHeader>
 
-                        <div className="space-y-4 py-6">
+                        <div className="space-y-4 py-6 px-5">
                             <div>
                                 <Label htmlFor="topic-name" required>
                                     Topic name
@@ -474,7 +470,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             </div>
                         </div>
 
-                        <SheetFooter className="mt-auto">
+                        <SheetFooter className="mt-auto flex-row justify-end gap-2">
                             <Button type="button" variant="outline" onClick={() => setIsTopicSheetOpen(false)}>
                                 Cancel
                             </Button>
@@ -492,7 +488,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             <SheetDescription>Create and manage your flashcards</SheetDescription>
                         </SheetHeader>
 
-                        <div className="space-y-4 py-6">
+                        <div className="space-y-4 py-6 px-5">
                             <div>
                                 <Label htmlFor="vocab-word" required>
                                     Word
@@ -581,7 +577,7 @@ const FlashCardManagementPage = ({ initialTopics }: FlashCardManagementPageProps
                             </div>
                         </div>
 
-                        <SheetFooter className="mt-auto">
+                        <SheetFooter className="mt-auto flex-row justify-end gap-2">
                             <Button type="button" variant="outline" onClick={() => setIsVocabSheetOpen(false)}>
                                 Cancel
                             </Button>

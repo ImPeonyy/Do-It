@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ApiResponse } from "@/constants/api.type";
 import { toast } from "sonner";
 import { CreateVocabularyRequest, Vocabulary, VocabularyForm } from "./vocabulary.interface";
+import vocabularyQueryKey from "./vocabulary.qkey";
 
 const createVocabulary = async (data: CreateVocabularyRequest): Promise<ApiResponse<Vocabulary>> => {
     const response = await axiosClient.post(`/vocabulary/flashcard`, data);
@@ -48,7 +49,7 @@ const checkFavoriteVocab = async (vocabId: number): Promise<boolean> => {
 
 const useCheckFavoriteVocab = (vocabId: number) => {
     return useQuery({
-        queryKey: ["favorite-vocab", vocabId],
+        queryKey: vocabularyQueryKey.favoriteVocab(vocabId),
         queryFn: () => checkFavoriteVocab(vocabId!),
         enabled: !!vocabId,
     });
@@ -102,6 +103,19 @@ const useRemoveFavoriteVocab = () => {
     });
 };
 
+const getFlashcardsByTopicId = async (topicId: number): Promise<ApiResponse<Vocabulary[]>> => {
+    const response = await axiosClient.get(`/vocabulary/flashcards/${topicId}`);
+    return response.data;
+};
+
+const useGetFlashcardsByTopicId = (topicId: number) => {
+    return useQuery({
+        queryKey: vocabularyQueryKey.flashcards(topicId),
+        queryFn: () => getFlashcardsByTopicId(topicId),
+        enabled: !!topicId,
+    });
+};
+
 export {
     useCreateVocabulary,
     useUpdateVocabulary,
@@ -112,5 +126,6 @@ export {
     useAddFavoriteVocab,
     removeFavoriteVocab,
     useRemoveFavoriteVocab,
+    useGetFlashcardsByTopicId,
 };
 export {};

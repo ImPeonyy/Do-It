@@ -1,6 +1,6 @@
 import axiosClient from "@/libs/clients/axios-client";
 import topicQueryKey from "./topic.qkey";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Topic, TopicDetail, TopicTestResultResponse } from "./topic.interface";
 import { ApiResponse, PaginationResponse } from "@/constants/api.type";
 import { toast } from "sonner";
@@ -30,7 +30,11 @@ const getTestTopicDetail = async (topicId: number): Promise<ApiResponse<TopicDet
     return response.data;
 };
 
-const useGetTopicDetail = (topicId: number, type: EFlashCardMode) => {
+const useGetTopicDetail = (
+    topicId: number,
+    type: EFlashCardMode,
+    options?: Omit<UseQueryOptions<ApiResponse<TopicDetail>>, "queryKey" | "queryFn">
+) => {
     return useQuery({
         queryKey: topicQueryKey.topicDetail(topicId, type),
         queryFn: () => {
@@ -39,7 +43,8 @@ const useGetTopicDetail = (topicId: number, type: EFlashCardMode) => {
             }
             return getTopicDetail(topicId);
         },
-        staleTime: MEDIUM_STALE_TIME
+        staleTime: MEDIUM_STALE_TIME,
+        enabled: options?.enabled ?? false,
     });
 };
 
@@ -79,12 +84,7 @@ const useGetRandomTopics = () => {
     });
 };
 
-
-const createTopic = async (data: {
-    name: string;
-    type: string;
-    description: string;
-}): Promise<ApiResponse<Topic>> => {
+const createTopic = async (data: { name: string; type: string; description: string }): Promise<ApiResponse<Topic>> => {
     const response = await axiosClient.post("/topics", data);
     return response.data;
 };
