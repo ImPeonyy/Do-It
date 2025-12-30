@@ -11,7 +11,6 @@ interface RequestOptions<TBody = unknown> {
 }
 
 const BASE_URL = process.env.INTERNAL_API_URL ?? "";
-const session = await getSession();
 
 export default async function apiServer<TResponse, TBody = unknown>(
   url: string,
@@ -23,6 +22,8 @@ export default async function apiServer<TResponse, TBody = unknown>(
     headers,
     params,
   } = options;
+
+  const session = await getSession();
 
   const queryString = params
     ? "?" +
