@@ -26,3 +26,5 @@ export * from "./client-side/user-stats/user-stats.interface";
 export * from "./topics/topic.api";
 export { default as topicQueryKey } from "./topics/topic.qkey";
 export * from "./topics/topic.interface";
+
+export * from "./feedback/feedback.api";
